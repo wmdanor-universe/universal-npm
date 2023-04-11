@@ -47,7 +47,6 @@ export async function execute() {
 
   await execPipe('npm run typecheck');
   await execPipe('npm run lint');
-  await execPipe('npm run build');
 
   const confirmation = await prompt('Checks passed, do you want to proceed with release (y/n)? ');
 
@@ -58,6 +57,8 @@ export async function execute() {
   }
 
   await execPipe(`npm version ${releaseType}`);
+
+  await execPipe('npm run build');
 
   await execPipe('npm publish');
 }
