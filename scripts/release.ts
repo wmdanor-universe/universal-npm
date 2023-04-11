@@ -59,8 +59,6 @@ export async function execute() {
 
   await execPipe(`npm version ${releaseType}`);
 
-  exit(0);
-
   await execPipe('npm publish');
 }
 
