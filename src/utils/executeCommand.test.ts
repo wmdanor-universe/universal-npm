@@ -8,6 +8,10 @@ const execMock = jest.mocked(exec);
 type ExecCallback = (error: ExecException | null, stdout: string, stderr: string) => void;
 
 describe('utils/executeCommand', () => {
+  jest.spyOn(process, 'stdin', 'get').mockImplementation(() => ({
+    pipe: jest.fn(),
+  }) as unknown as NodeJS.ReadStream & { fd: 0; });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
