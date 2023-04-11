@@ -19,18 +19,23 @@ function execPipe(command: string): Promise<void> {
 
     childProcess.stdout?.pipe(process.stdout);
     childProcess.stderr?.pipe(process.stderr);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    process.stdin.pipe(childProcess.stdin!);
   })
+}
+
+function prompt(query: string): Promise<string> {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+
+  return new Promise<string>(resolve => {
+    rl.question(query, resolve);
+  }).finally(() => {
+    rl.close();
+  });
 }
 
 export async function execute() {
   console.log('Release script started');
 
-  const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const prompt = (query: string) => new Promise<string>(resolve => rl.question(query, resolve));
-
-  const releaseType = await prompt('Input release type [major | minor | patch]: ');
+  const releaseType = process.argv[2] ?? await prompt('Input release type [major | minor | patch]: ');
 
   if (!['major', 'minor', 'patch'].includes(releaseType)) {
     console.error('Release type can be only be one of [major | minor | patch], you entered:', releaseType);
@@ -52,7 +57,10 @@ export async function execute() {
     exit(0);
   }
 
-  await execPipe(`npm version ${releaseType}`)
+  await execPipe(`npm version ${releaseType}`);
+
+  exit(0);
+
   await execPipe('npm publish');
 }
 

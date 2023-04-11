@@ -13,6 +13,6 @@ export function executeCommand(command: string): Promise<void> {
     childProcess.stdout?.pipe(process.stdout);
     childProcess.stderr?.pipe(process.stderr);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    // process.stdin.pipe(childProcess.stdin!);
+    process.stdin.pipe(childProcess.stdin!);
   });
 }
