@@ -1,10 +1,12 @@
 import { execute } from './unpm';
 import runUnpmEntryPoint from '../entryPoints/unpm';
 import { NotSupportedError } from '../errors/NotSupportedError';
-import { PackageManager } from '../enums';
-import { printError } from '../utils/printError';
+import { PackageManager } from "../packageManager/packageManager";
+import { printError } from '../io/printError';
+import { exit } from '../process/exit';
 
-jest.mock('../utils/printError');
+jest.mock('../io/printError');
+jest.mock('../process/exit');
 jest.mock('../entryPoints/unpm', () => ({
   __esModule: true,
   default: jest.fn().mockReturnValue(Promise.resolve()),
@@ -12,6 +14,7 @@ jest.mock('../entryPoints/unpm', () => ({
 
 const runUnpmEntryPointMock = jest.mocked(runUnpmEntryPoint);
 const printErrorMock = jest.mocked(printError);
+const exitMock = jest.mocked(exit);
 
 describe('bin/unpm', () => {
   afterEach(() => {
@@ -19,31 +22,29 @@ describe('bin/unpm', () => {
   });
 
   it('should call runUnpmEntryPoint', async () => {
-    await execute();
+    await execute(process.argv);
 
     expect(runUnpmEntryPoint).toHaveBeenCalled();
   });
 
   it('should log NotSupportedError message and exit with code 1', async () => {
-    const processExitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { /* */}) as () => never);
     const error = new NotSupportedError('licenses', PackageManager.NPM);
     runUnpmEntryPointMock.mockRejectedValueOnce(error);
 
-    await execute();
+    await execute(process.argv);
 
     expect(printErrorMock).toHaveBeenCalledWith(`${NotSupportedError.name}: "licenses" is not supported by ${PackageManager.NPM}`);
-    expect(processExitSpy).toHaveBeenCalledWith(1);
+    expect(exitMock).toHaveBeenCalledWith('error');
   });
 
   it('should log general error message and exit with code 1', async () => {
-    const processExitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { /* */}) as () => never);
     const errorMessage = 'General error message';
     const error = new Error(errorMessage);
     runUnpmEntryPointMock.mockRejectedValueOnce(error);
 
-    await execute();
+    await execute(process.argv);
 
     expect(printErrorMock).toHaveBeenCalledWith(`Error: ${errorMessage}`);
-    expect(processExitSpy).toHaveBeenCalledWith(1);
+    expect(exitMock).toHaveBeenCalledWith('error');
   });
 });

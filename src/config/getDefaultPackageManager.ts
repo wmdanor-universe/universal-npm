@@ -1,4 +1,4 @@
-import { PackageManager } from "../enums";
+import { PackageManager } from "../packageManager/packageManager";
 import { getConfig } from "./getConfig";
 
 export async function getDefaultPackageManager(): Promise<PackageManager> {

@@ -1,8 +1,8 @@
 import { NotSupportedError } from '../errors/NotSupportedError';
-import { MyCommandModule, MetaConstructors, MetaConstructorsCommandMeta } from '../types';
-import { PackageManager } from "../enums";
+import { MyCommandModule, MetaConstructors, MetaConstructorsCommandMeta } from '../commandHandler/types';
+import { PackageManager } from "../packageManager/packageManager";
 import { Argv } from 'yargs';
-import { createBaseCommandHandler } from '../utils/createBaseCommandHandler';
+import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
 const builder = (yargs: Argv) => {
   return yargs

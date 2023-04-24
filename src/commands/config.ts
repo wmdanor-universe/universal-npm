@@ -1,9 +1,9 @@
 import { getConfig } from '../config/getConfig';
 import { UnpmConfig } from '../config/types';
 import { updateConfig } from '../config/updateConfig';
-import { MyCommandModule } from '../types';
-import { PackageManager } from "../enums";
-import { isPackageManager } from "../utils/isPackageManager";
+import { MyCommandModule } from '../commandHandler/types';
+import { PackageManager } from "../packageManager/packageManager";
+import { isPackageManager } from "../packageManager/isPackageManager";
 import { Argv } from 'yargs';
 import { setDefaultPackageManager } from "../config/setDefaultPackageManager";
 

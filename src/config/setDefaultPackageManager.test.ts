@@ -1,6 +1,6 @@
 import { setDefaultPackageManager } from './setDefaultPackageManager';
 import { updateConfig } from './updateConfig';
-import { PackageManager } from '../enums';
+import { PackageManager } from "../packageManager/packageManager";
 
 jest.mock('./updateConfig');
 

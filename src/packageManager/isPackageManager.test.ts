@@ -1,7 +1,7 @@
 import { isPackageManager } from './isPackageManager';
-import { PackageManager } from "../enums";
+import { PackageManager } from "./packageManager";
 
-describe('utils/isPackageManager', () => {
+describe('packageManager/isPackageManager', () => {
   it('should return null for non-string input', () => {
     expect(isPackageManager(42)).toBeNull();
     expect(isPackageManager({})).toBeNull();

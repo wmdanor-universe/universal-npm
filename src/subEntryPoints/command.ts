@@ -2,13 +2,14 @@ import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 
 export default async function run(
+  argv: string[],
   requestedCommandName?: string,
 ): Promise<void> {
   const commandName = await getCommandName(requestedCommandName);
 
-  const { runCommandModule } = await import('../utils/runCommandModule');
+  const { runCommandModule } = await import('../commandHandler/runCommandModule');
 
-  await runCommandModule(commandName);
+  await runCommandModule(argv, commandName);
 }
 
 async function getCommandName(requestedCommandName = 'run'): Promise<string> {

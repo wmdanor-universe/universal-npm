@@ -28,13 +28,13 @@ jest.mock('../commands/install', () => {
   return { default: commandModule };
 });
 
-describe('utils/runCommandModule', () => {
+describe('commandHandler/runCommandModule', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should run a valid command module', async () => {
-    await runCommandModule('install');
+    await runCommandModule(process.argv, 'install');
 
     expect(yargsInstanceMock.scriptName).toHaveBeenCalledWith('unpm');
     expect(yargsInstanceMock.parserConfiguration).toHaveBeenCalledWith({ 'unknown-options-as-args': true });
@@ -46,7 +46,7 @@ describe('utils/runCommandModule', () => {
   });
 
   it('should reject when command module is not found', async () => {
-    await expect(runCommandModule('non-existent-module')).rejects.toThrow(
+    await expect(runCommandModule(process.argv, 'non-existent-module')).rejects.toThrow(
       'Failed to load command module for "non-existent-module" command',
     );
   });

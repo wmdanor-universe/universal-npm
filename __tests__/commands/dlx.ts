@@ -1,4 +1,4 @@
-import { PackageManager } from '../../src/enums';
+import { PackageManager } from '../../src/packageManager/packageManager';
 import { CommandTestSuite } from "../types";
 
 const errorMessage = '"dlx" command is not implemented by unpm, ' +

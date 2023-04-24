@@ -1,6 +1,6 @@
 import { getDefaultPackageManager } from './getDefaultPackageManager';
 import { getConfig } from './getConfig';
-import { PackageManager } from '../enums';
+import { PackageManager } from "../packageManager/packageManager";
 import { UnpmConfig } from './types';
 
 jest.mock('./getConfig');

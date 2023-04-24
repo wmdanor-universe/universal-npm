@@ -1,5 +1,5 @@
 import { NotSupportedError } from './NotSupportedError';
-import { PackageManager } from '../enums';
+import { PackageManager } from "../packageManager/packageManager";
 
 describe('errors/NotSupportedError', () => {
   it('should construct a valid error message with one package manager', () => {

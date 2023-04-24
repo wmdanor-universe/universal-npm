@@ -1,6 +1,6 @@
 import type { CommandModule, CommandBuilder } from 'yargs';
-import type { CommandMeta } from './utils/generateCommand';
-import type { PackageManager } from './enums';
+import type { CommandMeta } from './generateCommand';
+import type { PackageManager } from '../packageManager/packageManager';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type MyCommandBuilder<T = {}, U = {}> = Extract<CommandBuilder<T, U>, Function>;
