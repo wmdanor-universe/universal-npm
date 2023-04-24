@@ -1,4 +1,4 @@
-import { PackageManager } from "../enums";
+import { PackageManager } from "../packageManager/packageManager";
 
 export class NotSupportedError extends Error {
   public readonly subject: string;

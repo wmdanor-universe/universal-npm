@@ -1,6 +1,5 @@
-import { PackageManager } from "../enums";
+import { PackageManager } from "./packageManager";
 import getPreferredPackageManager from 'preferred-pm';
-import { getDefaultPackageManager } from "../config/getDefaultPackageManager";
 
 export async function getPackageManager(): Promise<PackageManager> {
    // returns `undefined`, if pm was not used before in `process.cwd()`
@@ -14,6 +13,6 @@ export async function getPackageManager(): Promise<PackageManager> {
     case 'pnpm':
       return PackageManager.PNPM;
     default:
-      return getDefaultPackageManager();
+      return import('../config/getDefaultPackageManager').then(m => m.getDefaultPackageManager());
   }
 }

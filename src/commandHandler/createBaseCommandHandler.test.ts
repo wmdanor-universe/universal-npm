@@ -1,19 +1,19 @@
-import { createBaseCommandHandler } from './createBaseCommandHandler';
-import { MetaConstructors } from '../types';
-import { PackageManager } from "../enums";
-import { executeCommand } from './executeCommand';
-import { CommandMetaOption, CommandMetaPositional, generateCommand } from './generateCommand';
-import { getPackageManager } from './getPackageManager';
+import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
+import { MetaConstructors } from './types';
+import { PackageManager } from "../packageManager/packageManager";
+import { executeCommand } from '../io/executeCommand';
+import { CommandMetaOption, CommandMetaPositional, generateCommand } from '../commandHandler/generateCommand';
+import { getPackageManager } from '../packageManager/getPackageManager';
 
-jest.mock('./executeCommand');
+jest.mock('../io/executeCommand');
 jest.mock('./generateCommand');
-jest.mock('./getPackageManager');
+jest.mock('../packageManager/getPackageManager');
 
 const executeCommandMock = jest.mocked(executeCommand);
 const generateCommandMock = jest.mocked(generateCommand);
 const getPackageManagerMock = jest.mocked(getPackageManager);
 
-describe('utils/createBaseCommandHandler', () => {
+describe('commandHandler/createBaseCommandHandler', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });

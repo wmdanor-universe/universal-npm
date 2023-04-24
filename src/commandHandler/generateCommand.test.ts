@@ -1,7 +1,7 @@
 import { generateCommand, CommandMeta } from "./generateCommand";
-import { PackageManager } from "../enums";
+import { PackageManager } from "../packageManager/packageManager";
 
-describe("utils/generateCommand", () => {
+describe("commandHandler/generateCommand", () => {
   const baseMeta: CommandMeta = {
     packageManager: PackageManager.NPM,
     positionals: [],

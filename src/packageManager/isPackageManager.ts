@@ -1,4 +1,4 @@
-import { PackageManager } from "../enums";
+import { PackageManager } from "./packageManager";
 
 export function isPackageManager(value: unknown): PackageManager | null {
   if (typeof value !== 'string') {

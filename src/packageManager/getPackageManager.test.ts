@@ -1,4 +1,4 @@
-import { PackageManager } from "../enums";
+import { PackageManager } from "./packageManager";
 import getPreferredPackageManager from 'preferred-pm';
 import { getDefaultPackageManager } from "../config/getDefaultPackageManager";
 import { getPackageManager } from './getPackageManager';
@@ -9,7 +9,7 @@ jest.mock('../config/getDefaultPackageManager');
 const getPreferredPackageManagerMock = jest.mocked(getPreferredPackageManager);
 const getDefaultPackageManagerMock = jest.mocked(getDefaultPackageManager);
 
-describe('utils/getPackageManager', () => {
+describe('packageManager/getPackageManager', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });

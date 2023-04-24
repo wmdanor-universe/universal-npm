@@ -1,4 +1,4 @@
-import { PackageManager } from "../enums";
+import { PackageManager } from "../packageManager/packageManager";
 
 export interface CommandMeta {
   packageManager: PackageManager;

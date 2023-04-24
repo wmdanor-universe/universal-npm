@@ -1,21 +1,24 @@
 import { getDefaultPackageManager } from '../src/config/getDefaultPackageManager';
-import { executeCommand } from '../src/utils/executeCommand';
+import { executeCommand } from '../src/io/executeCommand';
 import { execute as executeBin } from '../src/bin/unpm';
-import { PackageManager } from '../src/enums';
+import { PackageManager } from '../src/packageManager/packageManager';
 import * as path from 'path'
 import { CommandTestSuite } from './types';
 import { readdirSync } from 'fs';
-import { printError } from '../src/utils/printError';
+import { printError } from '../src/io/printError';
+import { exit } from '../src/process/exit';
 
 jest.mock('../src/config/getDefaultPackageManager');
-jest.mock('../src/utils/executeCommand');
-jest.mock('../src/utils/printError');
+jest.mock('../src/io/executeCommand');
+jest.mock('../src/io/printError');
+jest.mock('../src/process/exit');
 
 jest.mock('preferred-pm', () => () => Promise.resolve(undefined));
 
 const getDefaultPackageManagerMock = jest.mocked(getDefaultPackageManager);
 const executeCommandMock = jest.mocked(executeCommand).mockResolvedValue();
 const printErrorMock = jest.mocked(printError);
+const exitMock = jest.mocked(exit);
 
 function splitArgs(input: string): string[] {
   const args: string[] = [];
@@ -50,25 +53,21 @@ function splitArgs(input: string): string[] {
 }
 
 interface ExecutionResult {
-  exitCode: number;
+  status: 'ok' | 'error';
 }
 async function emulateUnpmCall(input: string): Promise<ExecutionResult> {
   const binFileLocation = path.resolve(__dirname, '..', 'dist', 'bin', 'unpm.js');
   const mockArgv = splitArgs(input.includes('unpm') ?
     input.replace('unpm', binFileLocation) :
     `${binFileLocation} ${input}`);
-  const processExitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { /* */}) as () => never);
-  const originalArgv = process.argv;
-  process.argv = [process.argv0, ...mockArgv];
 
-  await executeBin();
+  await executeBin([process.argv0, ...mockArgv]);
 
   const result: ExecutionResult = {
-    exitCode: processExitSpy.mock.lastCall?.[0] ?? 0,
+    status: exitMock.mock.lastCall?.[0] ?? 'ok',
   };
 
-  processExitSpy.mockRestore();
-  process.argv = originalArgv;
+  exitMock.mockReset();
 
   return result;
 }
@@ -149,13 +148,13 @@ describe('commands', () => {
             const generatedCommand = executeCommandMock.mock.calls[0]?.[0];
 
             expect(generatedCommand).toMatchExtended(expected.expectedGeneratedCommand);
-            expect(result.exitCode).toBe(0);
+            expect(result.status).toBe('ok');
             expect(executeCommandMock).toHaveBeenCalled();
           } else {
             const errorMessages = printErrorMock.mock.calls.map(([message]) => typeof message === 'string' ? message : String(message));
 
             expect(errorMessages[0]).toMatchExtended(expected.expectedErrorOutput);
-            expect(result.exitCode).toBe(1);
+            expect(result.status).toBe('error');
             expect(executeCommandMock).not.toHaveBeenCalled();
           }
         });

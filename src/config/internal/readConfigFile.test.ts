@@ -4,11 +4,11 @@ import { UnpmConfig } from '../types';
 import { configFileLocation, defaultConfig } from './constants';
 import { readConfigFile } from './readConfigFile';
 import { validateConfig } from './validateConfig';
-import { printError } from '../../utils/printError';
+import { printError } from '../../io/printError';
 
 jest.mock('fs/promises');
 jest.mock('./validateConfig');
-jest.mock('../../utils/printError')
+jest.mock('../../io/printError')
 
 const readFileMock = jest.mocked(readFile);
 const validateConfigMock = jest.mocked(validateConfig);

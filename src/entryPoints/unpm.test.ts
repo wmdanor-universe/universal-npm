@@ -2,9 +2,9 @@ import run from './unpm';
 import runHelpSubEntryPoint from '../subEntryPoints/help';
 import runVersionSubEntryPoint from '../subEntryPoints/version';
 import runCommandSubEntryPoint from '../subEntryPoints/command';
-import { getNodeVersion } from '../utils/getNodeVersion';
+import { getNodeVersion } from '../process/getNodeVersion';
 
-jest.mock('../utils/getNodeVersion');
+jest.mock('../process/getNodeVersion');
 
 jest.mock('../subEntryPoints/help');
 
@@ -35,9 +35,10 @@ describe('entryPoints/unpm', () => {
   it.each(
     ['--help', '--h', '-help', '-h', 'help', 'h']
   )('should call the "help" sub entry point when second argument is "help" compatible: %s', async (argv2) => {
-    process.argv[2] = argv2;
+    const argv = [...process.argv];
+    argv[2] = argv2;
 
-    await run();
+    await run(argv);
 
     expect(runHelpSubEntryPointMock).toHaveBeenCalledTimes(1);
     expect(runVersionSubEntryPointMock).toHaveBeenCalledTimes(0);
@@ -47,9 +48,10 @@ describe('entryPoints/unpm', () => {
   it.each(
     ['--version', '--v', '-version', '-v']
   )('should call the "help" sub entry point when second argument is "version" compatible: %s', async (argv2) => {
-    process.argv[2] = argv2;
+    const argv = [...process.argv];
+    argv[2] = argv2;
 
-    await run();
+    await run(argv);
 
     expect(runHelpSubEntryPointMock).toHaveBeenCalledTimes(0);
     expect(runVersionSubEntryPointMock).toHaveBeenCalledTimes(1);
@@ -59,9 +61,10 @@ describe('entryPoints/unpm', () => {
   it.each(
     ['-D']
   )('should reject when second argument is invalid: %s', async (argv2) => {
-    process.argv[2] = argv2;
+    const argv = [...process.argv];
+    argv[2] = argv2;
 
-    await expect(run).toThrowError(new Error('Second argument must be: "--help", "--version" or command to invoke (or none if just called as "unpm" to install all packages)'));
+    await expect(() => run(argv)).toThrowError(new Error('Second argument must be: "--help", "--version" or command to invoke (or none if just called as "unpm" to install all packages)'));
 
     expect(runHelpSubEntryPointMock).toHaveBeenCalledTimes(0);
     expect(runVersionSubEntryPointMock).toHaveBeenCalledTimes(0);
@@ -71,9 +74,10 @@ describe('entryPoints/unpm', () => {
   it.each(
     ['', 'run', 'install', 'version', 'config']
   )('should call the "command" sub entry point for other seconds argument values: %s', async (argv2) => {
-    process.argv[2] = argv2;
+    const argv = [...process.argv];
+    argv[2] = argv2;
 
-    await run();
+    await run(argv);
 
     expect(runHelpSubEntryPointMock).toHaveBeenCalledTimes(0);
     expect(runVersionSubEntryPointMock).toHaveBeenCalledTimes(0);

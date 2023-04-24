@@ -1,10 +1,10 @@
 import yargsFactory from 'yargs/yargs';
 import { type CommandModule } from 'yargs';
 
-export async function runCommandModule(commandName: string): Promise<void> {
+export async function runCommandModule(argv: string[], commandName: string): Promise<void> {
   const commandModule = await importCommandModule(commandName);
 
-  await yargsFactory(process.argv.slice(2))
+  await yargsFactory(argv.slice(2))
     .scriptName('unpm')
     .parserConfiguration({ 'unknown-options-as-args': true })
     .command(commandModule)
