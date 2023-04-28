@@ -1,6 +1,6 @@
-import { PackageManager } from "./packageManager";
+import { PackageManager } from './packageManager';
 import { getPreferredPackageManager } from './getPreferredPackageManager';
-import { getDefaultPackageManager } from "../config/getDefaultPackageManager";
+import { getDefaultPackageManager } from '../config/getDefaultPackageManager';
 import { getPackageManager } from './getPackageManager';
 
 jest.mock('preferred-pm');

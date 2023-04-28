@@ -12,7 +12,7 @@ const validateConfigMock = jest.mocked(validateConfig);
 
 describe('config/internal/updateConfigFile', () => {
   const currentConfig: UnpmConfig = {
-    ...defaultConfig
+    ...defaultConfig,
   };
 
   const updatedConfig: Partial<UnpmConfig> = {
@@ -33,8 +33,14 @@ describe('config/internal/updateConfigFile', () => {
 
     expect(readFile).toHaveBeenCalledWith(configFileLocation, 'utf-8');
     expect(validateConfig).toHaveBeenNthCalledWith(1, currentConfig);
-    expect(validateConfig).toHaveBeenNthCalledWith(2, { ...currentConfig, ...updatedConfig });
-    expect(writeFile).toHaveBeenCalledWith(configFileLocation, JSON.stringify({ ...currentConfig, ...updatedConfig }, null, 2));
+    expect(validateConfig).toHaveBeenNthCalledWith(2, {
+      ...currentConfig,
+      ...updatedConfig,
+    });
+    expect(writeFile).toHaveBeenCalledWith(
+      configFileLocation,
+      JSON.stringify({ ...currentConfig, ...updatedConfig }, null, 2),
+    );
     expect(newConfig).toEqual({ ...currentConfig, ...updatedConfig });
   });
 

@@ -1,5 +1,9 @@
-import { MetaConstructors, MetaConstructorsCommandMeta, MyCommandModule } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+  MyCommandModule,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
@@ -10,8 +14,8 @@ const builder = (yargs: Argv) => {
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {
-  [PackageManager.NPM]: (argv) => {
-    const args =  argv._.slice(1).map((arg, i) => ({
+  [PackageManager.NPM]: argv => {
+    const args = argv._.slice(1).map((arg, i) => ({
       order: i + 3,
       value: arg.toString(),
     }));
@@ -20,7 +24,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
       positionals: [
         {
           order: 1,
-          value: 'exec'
+          value: 'exec',
         },
         {
           order: 2,
@@ -34,12 +38,12 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.YARN]: (argv) => {
+  [PackageManager.YARN]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 1,
-          value: 'run'
+          value: 'run',
         },
         ...argv._.slice(1).map((arg, i) => ({
           order: i + 2,
@@ -51,12 +55,12 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.PNPM]: (argv) => {
+  [PackageManager.PNPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 1,
-          value: 'exec'
+          value: 'exec',
         },
         ...argv._.slice(1).map((arg, i) => ({
           order: i + 2,

@@ -1,5 +1,5 @@
 import { getConfig } from './getConfig';
-import { PackageManager } from "../packageManager/packageManager";
+import { PackageManager } from '../packageManager/packageManager';
 import { UnpmConfig } from './types';
 import { getGlobalPackageManager } from './getGlobalPackageManager';
 

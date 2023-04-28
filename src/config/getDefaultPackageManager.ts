@@ -1,5 +1,5 @@
-import { PackageManager } from "../packageManager/packageManager";
-import { getConfig } from "./getConfig";
+import { PackageManager } from '../packageManager/packageManager';
+import { getConfig } from './getConfig';
 
 export async function getDefaultPackageManager(): Promise<PackageManager> {
   const config = await getConfig();

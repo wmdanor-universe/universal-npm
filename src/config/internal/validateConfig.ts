@@ -17,7 +17,7 @@ const configSchema: JSONSchemaType<UnpmConfig> = {
     globalPm: globalPmSchema,
   },
   required: ['defaultPm', 'globalPm'],
-}
+};
 
 export async function validateConfig(config: UnpmConfig) {
   const ajv = new Ajv();

@@ -1,6 +1,6 @@
 import { setDefaultPackageManager } from './setDefaultPackageManager';
 import { updateConfig } from './updateConfig';
-import { PackageManager } from "../packageManager/packageManager";
+import { PackageManager } from '../packageManager/packageManager';
 
 jest.mock('./updateConfig');
 
@@ -16,6 +16,8 @@ describe('config/setDefaultPackageManager', () => {
 
     await setDefaultPackageManager(mockPackageManager);
 
-    expect(updateConfigMock).toHaveBeenCalledWith({ defaultPm: mockPackageManager });
+    expect(updateConfigMock).toHaveBeenCalledWith({
+      defaultPm: mockPackageManager,
+    });
   });
 });

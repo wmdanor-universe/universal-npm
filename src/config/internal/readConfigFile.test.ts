@@ -8,7 +8,7 @@ import { printError } from '../../io/printError';
 
 jest.mock('fs/promises');
 jest.mock('./validateConfig');
-jest.mock('../../io/printError')
+jest.mock('../../io/printError');
 
 const readFileMock = jest.mocked(readFile);
 const validateConfigMock = jest.mocked(validateConfig);
@@ -46,7 +46,11 @@ describe('config/internal/readConfigFile', () => {
     expect(readFileMock).toHaveBeenCalledWith(configFileLocation, 'utf-8');
     expect(validateConfigMock).toHaveBeenCalled();
     expect(printErrorMock).toHaveBeenCalledWith(
-      `Error: config file is broken, using fallback to the default config, errors: ${JSON.stringify(validationErrors, null, 2)}`
+      `Error: config file is broken, using fallback to the default config, errors: ${JSON.stringify(
+        validationErrors,
+        null,
+        2,
+      )}`,
     );
     expect(result).toEqual(defaultConfig);
 

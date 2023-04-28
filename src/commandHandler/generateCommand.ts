@@ -1,4 +1,4 @@
-import { PackageManager } from "../packageManager/packageManager";
+import { PackageManager } from '../packageManager/packageManager';
 
 export interface CommandMeta {
   packageManager: PackageManager;
@@ -31,12 +31,12 @@ export function generateCommand(meta: CommandMeta): string {
     if (v.value.length === 0) return false;
 
     return true;
-  }
+  };
 
   const sortedPositionals = meta.positionals
     .slice()
     .filter(predicate)
-    .sort((a, b) => a.order - b.order)
+    .sort((a, b) => a.order - b.order);
 
   for (const { value } of sortedPositionals) {
     if (Array.isArray(value)) {

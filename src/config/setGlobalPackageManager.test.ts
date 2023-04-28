@@ -1,5 +1,5 @@
 import { updateConfig } from './updateConfig';
-import { PackageManager } from "../packageManager/packageManager";
+import { PackageManager } from '../packageManager/packageManager';
 import { setGlobalPackageManager } from './setGlobalPackageManager';
 
 jest.mock('./updateConfig');
@@ -16,6 +16,8 @@ describe('config/setGlobalPackageManager', () => {
 
     await setGlobalPackageManager(mockPackageManager);
 
-    expect(updateConfigMock).toHaveBeenCalledWith({ globalPm: mockPackageManager });
+    expect(updateConfigMock).toHaveBeenCalledWith({
+      globalPm: mockPackageManager,
+    });
   });
 });

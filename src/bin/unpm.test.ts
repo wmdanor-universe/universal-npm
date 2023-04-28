@@ -1,7 +1,7 @@
 import { execute } from './unpm';
 import runUnpmEntryPoint from '../entryPoints/unpm';
 import { NotSupportedError } from '../errors/NotSupportedError';
-import { PackageManager } from "../packageManager/packageManager";
+import { PackageManager } from '../packageManager/packageManager';
 import { printError } from '../io/printError';
 import { exit } from '../process/exit';
 
@@ -33,7 +33,9 @@ describe('bin/unpm', () => {
 
     await execute(process.argv);
 
-    expect(printErrorMock).toHaveBeenCalledWith(`${NotSupportedError.name}: "licenses" is not supported by ${PackageManager.NPM}`);
+    expect(printErrorMock).toHaveBeenCalledWith(
+      `${NotSupportedError.name}: "licenses" is not supported by ${PackageManager.NPM}`,
+    );
     expect(exitMock).toHaveBeenCalledWith('error');
   });
 

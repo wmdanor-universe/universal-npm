@@ -1,5 +1,9 @@
-import { MetaConstructors, MetaConstructorsCommandMeta, MyCommandModule } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+  MyCommandModule,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
@@ -22,7 +26,8 @@ const builder = (args: Argv) => {
     })
     .option('save-exact', {
       alias: ['E', 'exact'],
-      describe: 'Saved dependencies will be configured with an exact version rather than using default semver range operator',
+      describe:
+        'Saved dependencies will be configured with an exact version rather than using default semver range operator',
       type: 'boolean',
     })
     .option('save-optional', {
@@ -43,7 +48,7 @@ const builder = (args: Argv) => {
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {
-  [PackageManager.NPM]: (argv) => {
+  [PackageManager.NPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
@@ -53,7 +58,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           order: 2,
           value: argv.packages,
-        }
+        },
       ],
       options: [
         {
@@ -79,19 +84,19 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           name: '--global',
           value: argv.global,
-        }
+        },
       ],
     };
 
     return meta;
   },
-  [PackageManager.YARN]: (argv) => {
+  [PackageManager.YARN]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 0,
           value: 'global',
-          condition: !!argv.global
+          condition: !!argv.global,
         },
         {
           order: 1,
@@ -100,7 +105,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           order: 2,
           value: argv.packages,
-        }
+        },
       ],
       options: [
         {
@@ -128,7 +133,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.PNPM]: (argv) => {
+  [PackageManager.PNPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
@@ -138,7 +143,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           order: 2,
           value: argv.packages,
-        }
+        },
       ],
       options: [
         {
@@ -164,7 +169,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           name: '--global',
           value: argv.global,
-        }
+        },
       ],
     };
 

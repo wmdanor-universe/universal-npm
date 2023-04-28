@@ -1,12 +1,14 @@
-import { PackageManager } from "./packageManager";
+import { PackageManager } from './packageManager';
 import { getGlobalPackageManager as getConfigGlobalPackageManager } from '../config/getGlobalPackageManager';
-import { getDefaultPackageManager } from "../config/getDefaultPackageManager";
-import { getGlobalPackageManager } from "./getGlobalPackageManager";
+import { getDefaultPackageManager } from '../config/getDefaultPackageManager';
+import { getGlobalPackageManager } from './getGlobalPackageManager';
 
 jest.mock('../config/getGlobalPackageManager');
 jest.mock('../config/getDefaultPackageManager');
 
-const getConfigGlobalPackageManagerMock = jest.mocked(getConfigGlobalPackageManager);
+const getConfigGlobalPackageManagerMock = jest.mocked(
+  getConfigGlobalPackageManager,
+);
 const getDefaultPackageManagerMock = jest.mocked(getDefaultPackageManager);
 
 describe('packageManager/getGlobalPackageManager', () => {

@@ -1,6 +1,10 @@
 import { NotSupportedError } from '../errors/NotSupportedError';
-import { MyCommandModule, MetaConstructors, MetaConstructorsCommandMeta } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MyCommandModule,
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
@@ -19,7 +23,7 @@ const builder = (yargs: Argv) => {
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {
-  [PackageManager.NPM]: (argv) => {
+  [PackageManager.NPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
@@ -41,7 +45,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.YARN]: (argv) => {
+  [PackageManager.YARN]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
@@ -62,7 +66,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.PNPM]: (argv) => {
+  [PackageManager.PNPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {

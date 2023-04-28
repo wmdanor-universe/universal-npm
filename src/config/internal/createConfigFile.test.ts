@@ -25,7 +25,10 @@ describe('config/internal/createConfigFile', () => {
 
     await createConfigFile();
 
-    expect(writeFile).toHaveBeenCalledWith(configFileLocation, JSON.stringify(expectedConfig, null, 2));
+    expect(writeFile).toHaveBeenCalledWith(
+      configFileLocation,
+      JSON.stringify(expectedConfig, null, 2),
+    );
   });
 
   it('should create a config file with merged config if init is provided', async () => {
@@ -34,14 +37,23 @@ describe('config/internal/createConfigFile', () => {
 
     await createConfigFile(mockInit);
 
-    expect(writeFile).toHaveBeenCalledWith(configFileLocation, JSON.stringify(expectedConfig, null, 2));
+    expect(writeFile).toHaveBeenCalledWith(
+      configFileLocation,
+      JSON.stringify(expectedConfig, null, 2),
+    );
   });
 
   it('should throw an error if the config fails validation', async () => {
     const mockErrors: ErrorObject[] = [];
     validateConfigMock.mockResolvedValue(mockErrors);
 
-    await expect(createConfigFile(mockInit)).rejects.toThrow(`Initial config failed the validation, errors: ${JSON.stringify(mockErrors, null, 2)}`);
+    await expect(createConfigFile(mockInit)).rejects.toThrow(
+      `Initial config failed the validation, errors: ${JSON.stringify(
+        mockErrors,
+        null,
+        2,
+      )}`,
+    );
 
     expect(writeFile).not.toHaveBeenCalled();
   });
