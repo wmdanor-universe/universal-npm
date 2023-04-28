@@ -5,6 +5,7 @@ import type { PackageManager } from '../packageManager/packageManager';
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type MyCommandBuilder<T = {}, U = {}> = Extract<
   CommandBuilder<T, U>,
+  // eslint-disable-next-line @typescript-eslint/ban-types
   Function
 >;
 export type MyCommandModuleT<BuilderType extends MyCommandBuilder> =

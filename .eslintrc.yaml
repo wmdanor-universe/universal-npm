@@ -12,6 +12,10 @@ extends:
   - 'plugin:@typescript-eslint/recommended'
   - 'plugin:prettier/recommended'
 rules:
+  'prettier/prettier':
+    - "error"
+    - {}
+    - { usePrettierrc: true }
   'no-constant-condition': 'off'
 ignorePatterns:
   - 'node_modules'
