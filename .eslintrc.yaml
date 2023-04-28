@@ -20,3 +20,5 @@ rules:
 ignorePatterns:
   - 'node_modules'
   - 'dist'
+  - 'generated'
+  - 'scratch'

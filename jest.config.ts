@@ -4,12 +4,10 @@ import { readFileSync } from 'fs';
 const swcConfig = JSON.parse(readFileSync(`${__dirname}/.swcrc`, 'utf-8'));
 
 const config: Config.InitialOptions = {
-  testMatch: [
-    "**/*.test.ts",
-  ],
+  testMatch: ['**/*.test.ts'],
   transform: {
-    "^.+\\.ts$": [
-      "@swc/jest",
+    '^.+\\.ts$': [
+      '@swc/jest',
       {
         ...swcConfig,
         exclude: [],

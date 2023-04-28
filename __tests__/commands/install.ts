@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'install',
@@ -47,7 +47,11 @@ const testSuite: CommandTestSuite = {
       },
     },
     {
-      input: ['unpm install express --save', 'unpm install express --save-prod', 'unpm install express -S'],
+      input: [
+        'unpm install express --save',
+        'unpm install express --save-prod',
+        'unpm install express -S',
+      ],
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm install express --save',
@@ -61,7 +65,11 @@ const testSuite: CommandTestSuite = {
       },
     },
     {
-      input: ['unpm install express --save', 'unpm install express --save-prod', 'unpm install express -S'],
+      input: [
+        'unpm install express --save',
+        'unpm install express --save-prod',
+        'unpm install express -S',
+      ],
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm install express --save',
@@ -75,7 +83,11 @@ const testSuite: CommandTestSuite = {
       },
     },
     {
-      input: ['unpm install express --save-dev', 'unpm install express --dev', 'unpm install express -D'],
+      input: [
+        'unpm install express --save-dev',
+        'unpm install express --dev',
+        'unpm install express -D',
+      ],
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm install express --save-dev',
@@ -92,7 +104,7 @@ const testSuite: CommandTestSuite = {
       input: [
         'unpm install express --save-exact',
         'unpm install express --exact',
-        'unpm install express -E'
+        'unpm install express -E',
       ],
       expected: {
         [PackageManager.NPM]: {
@@ -110,7 +122,7 @@ const testSuite: CommandTestSuite = {
       input: [
         'unpm install express --save-optional',
         'unpm install express --optional',
-        'unpm install express -O'
+        'unpm install express -O',
       ],
       expected: {
         [PackageManager.NPM]: {
@@ -128,7 +140,7 @@ const testSuite: CommandTestSuite = {
       input: [
         'unpm install express --save-peer',
         'unpm install express --peer',
-        'unpm install express -P'
+        'unpm install express -P',
       ],
       expected: {
         [PackageManager.NPM]: {
@@ -143,10 +155,7 @@ const testSuite: CommandTestSuite = {
       },
     },
     {
-      input: [
-        'unpm install express --global',
-        'unpm install express -g',
-      ],
+      input: ['unpm install express --global', 'unpm install express -g'],
       globalPm: true,
       expected: {
         [PackageManager.NPM]: {

@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'version',
