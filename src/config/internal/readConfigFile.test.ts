@@ -22,6 +22,7 @@ describe('config/internal/readConfigFile', () => {
   it('should return config if the config file is valid', async () => {
     const validConfig: UnpmConfig = {
       defaultPm: 'yarn',
+      globalPm: null,
     };
     readFileMock.mockResolvedValue(JSON.stringify(validConfig));
     validateConfigMock.mockResolvedValue(null);
