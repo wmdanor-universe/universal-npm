@@ -5,10 +5,13 @@ import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHan
 
 const builder = (yargs: Argv) => {
   return yargs
+    .example('$0 test', 'Run "test" script')
+    .example('$0 create-command <command-name>', 'Run "create-command" script and pass <command-name> as an argument to it')
+    .example('$0 run typecheck --watch', 'Run typecheck in watch mode')
     .positional('script', {
       describe: 'The name of the script to run',
       type: 'string',
-    })
+    });
 };
 
 const shouldFallbackToInstall = (argv: MyArgv<typeof builder>) => {

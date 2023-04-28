@@ -4,7 +4,9 @@ import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
 const builder = (yargs: Argv) => {
-  return yargs;
+  return yargs
+    .example('$0 exec nodemon', 'Run nodemon')
+    .example('$0 exec tsc --watch', 'Run typescript compiler in watch mode');
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {

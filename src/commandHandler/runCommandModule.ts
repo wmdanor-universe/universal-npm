@@ -10,7 +10,7 @@ export async function runCommandModule(argv: string[], commandName: string): Pro
     .command(commandModule)
     .version(false)
     .help('h')
-    .alias('help', 'h') // TODO: add test for this alias
+    .alias('help', 'h')
     .fail((message, error) => {
       throw error ?? new Error(message);
     })

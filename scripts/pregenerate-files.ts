@@ -7,7 +7,13 @@ export async function execute() {
 
   let yargsLocal = yargs
     .scriptName('unpm')
+    .help('h')
+    .alias('help', 'h')
     .parserConfiguration({ 'unknown-options-as-args': true })
+    .example('$0', 'Install all packages in the project')
+    .example('$0 install express', 'Install express package')
+    .example('$0 add nodemon --dev', 'Install nodemon package as devDependency')
+    .example('$0 dev', 'Run "dev" script')
 
   const commandsLocations = resolve(__dirname, '../dist/commands');
   const commandsFiles = await readdir(commandsLocations);

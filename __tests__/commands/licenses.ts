@@ -14,7 +14,7 @@ const testSuite: CommandTestSuite = {
           expectedGeneratedCommand: 'yarn licenses list',
         },
         [PackageManager.PNPM]: {
-          expectedGeneratedCommand: 'pnpm licenses',
+          expectedGeneratedCommand: 'pnpm licenses list',
         },
       },
     },
