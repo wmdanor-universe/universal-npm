@@ -12,6 +12,7 @@ jest.mock('yargs/yargs', () => () => {
     help: jest.fn().mockReturnThis(),
     fail: jest.fn().mockReturnThis(),
     parseAsync: jest.fn().mockResolvedValue(undefined),
+    alias: jest.fn().mockReturnThis(),
   };
 
   yargsInstanceMock = yargsMock as unknown as Argv;
@@ -23,7 +24,9 @@ jest.mock('../commands/install', () => {
   const commandModule: CommandModule<unknown, unknown> = {
     command: 'test',
     describe: 'A test command',
-    handler: async () => { /* */ },
+    handler: async () => {
+      /* */
+    },
   };
   return { default: commandModule };
 });
@@ -37,16 +40,21 @@ describe('commandHandler/runCommandModule', () => {
     await runCommandModule(process.argv, 'install');
 
     expect(yargsInstanceMock.scriptName).toHaveBeenCalledWith('unpm');
-    expect(yargsInstanceMock.parserConfiguration).toHaveBeenCalledWith({ 'unknown-options-as-args': true });
+    expect(yargsInstanceMock.parserConfiguration).toHaveBeenCalledWith({
+      'unknown-options-as-args': true,
+    });
     expect(yargsInstanceMock.command).toHaveBeenCalled();
     expect(yargsInstanceMock.version).toHaveBeenCalledWith(false);
-    expect(yargsInstanceMock.help).toHaveBeenCalled();
+    expect(yargsInstanceMock.help).toHaveBeenCalledWith('h');
     expect(yargsInstanceMock.fail).toHaveBeenCalled();
     expect(yargsInstanceMock.parseAsync).toHaveBeenCalled();
+    expect(yargsInstanceMock.alias).toHaveBeenCalledWith('help', 'h');
   });
 
   it('should reject when command module is not found', async () => {
-    await expect(runCommandModule(process.argv, 'non-existent-module')).rejects.toThrow(
+    await expect(
+      runCommandModule(process.argv, 'non-existent-module'),
+    ).rejects.toThrow(
       'Failed to load command module for "non-existent-module" command',
     );
   });

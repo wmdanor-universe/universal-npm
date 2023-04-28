@@ -1,5 +1,9 @@
-import { MetaConstructors, MetaConstructorsCommandMeta, MyCommandModule } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+  MyCommandModule,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
@@ -10,13 +14,15 @@ const versionOptionYarnMapping: Record<string, string> = {
   premajor: '--premajor',
   preminor: '--preminor',
   prepatch: '--prepatch',
-  prerelease: '--prerelease'
-}
+  prerelease: '--prerelease',
+};
 
 const builder = (yargs: Argv) => {
   return yargs
     .positional('newversion', {
-      describe: `The new version to set [<newversion> | ${Object.keys(versionOptionYarnMapping).join(' | ')}]`,
+      describe: `The new version to set [<newversion> | ${Object.keys(
+        versionOptionYarnMapping,
+      ).join(' | ')}]`,
       type: 'string',
     })
     .option('commit-hooks', {
@@ -27,35 +33,35 @@ const builder = (yargs: Argv) => {
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {
-  [PackageManager.NPM]: (argv) => {
+  [PackageManager.NPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 1,
-          value: 'version'
+          value: 'version',
         },
         {
           order: 2,
           value: argv.newversion,
-        }
+        },
       ],
       options: [
         {
           name: '--commit-hooks',
           value: argv.commitHooks === false ? 'false' : undefined,
-        }
+        },
       ],
     };
 
     return meta;
   },
-  [PackageManager.YARN]: (argv) => {
+  [PackageManager.YARN]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 1,
-          value: 'version'
-        }
+          value: 'version',
+        },
       ],
       options: [],
     };
@@ -76,7 +82,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.PNPM]: (argv) => {
+  [PackageManager.PNPM]: argv => {
     return metaConstructors[PackageManager.NPM](argv);
   },
 };

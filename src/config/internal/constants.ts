@@ -9,4 +9,5 @@ export const configFileLocation = resolve(homeDir, '.unpmrc');
 
 export const defaultConfig: Readonly<UnpmConfig> = {
   defaultPm: 'npm',
+  globalPm: 'npm',
 };

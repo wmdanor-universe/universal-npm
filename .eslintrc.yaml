@@ -6,11 +6,16 @@ parserOptions:
 plugins:
   - '@typescript-eslint'
   - 'prettier'
+  - 'eslint-plugin-prettier'
 extends:
   - 'eslint:recommended'
   - 'plugin:@typescript-eslint/recommended'
-  - 'prettier'
+  - 'plugin:prettier/recommended'
 rules:
+  'prettier/prettier':
+    - "error"
+    - {}
+    - { usePrettierrc: true }
   'no-constant-condition': 'off'
 ignorePatterns:
   - 'node_modules'

@@ -1,6 +1,6 @@
 import { getDefaultPackageManager } from './getDefaultPackageManager';
 import { getConfig } from './getConfig';
-import { PackageManager } from "../packageManager/packageManager";
+import { PackageManager } from '../packageManager/packageManager';
 import { UnpmConfig } from './types';
 
 jest.mock('./getConfig');
@@ -13,9 +13,9 @@ describe('config/getDefaultPackageManager', () => {
   });
 
   it('should return PackageManager.NPM if defaultPm is "npm"', async () => {
-    const mockConfig: UnpmConfig = {
+    const mockConfig = {
       defaultPm: 'npm',
-    };
+    } as unknown as UnpmConfig;
 
     getConfigMock.mockResolvedValue(mockConfig);
 
@@ -26,9 +26,9 @@ describe('config/getDefaultPackageManager', () => {
   });
 
   it('should return PackageManager.YARN if defaultPm is "yarn"', async () => {
-    const mockConfig: UnpmConfig = {
+    const mockConfig = {
       defaultPm: 'yarn',
-    };
+    } as unknown as UnpmConfig;
     getConfigMock.mockResolvedValue(mockConfig);
 
     const result = await getDefaultPackageManager();
@@ -38,9 +38,9 @@ describe('config/getDefaultPackageManager', () => {
   });
 
   it('should return PackageManager.PNPM if defaultPm is "pnpm"', async () => {
-    const mockConfig: UnpmConfig = {
+    const mockConfig = {
       defaultPm: 'pnpm',
-    };
+    } as unknown as UnpmConfig;
     getConfigMock.mockResolvedValue(mockConfig);
 
     const result = await getDefaultPackageManager();

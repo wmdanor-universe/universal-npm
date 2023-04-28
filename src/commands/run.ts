@@ -1,14 +1,25 @@
-import { MetaConstructors, MetaConstructorsCommandMeta, MyCommandModule, MyArgv } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+  MyCommandModule,
+  MyArgv,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
 const builder = (yargs: Argv) => {
   return yargs
+    .example('$0 test', 'Run "test" script')
+    .example(
+      '$0 create-command <command-name>',
+      'Run "create-command" script and pass <command-name> as an argument to it',
+    )
+    .example('$0 run typecheck --watch', 'Run typecheck in watch mode')
     .positional('script', {
       describe: 'The name of the script to run',
       type: 'string',
-    })
+    });
 };
 
 const shouldFallbackToInstall = (argv: MyArgv<typeof builder>) => {
@@ -16,23 +27,25 @@ const shouldFallbackToInstall = (argv: MyArgv<typeof builder>) => {
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {
-  [PackageManager.NPM]: (argv) => {
+  [PackageManager.NPM]: argv => {
     if (shouldFallbackToInstall(argv)) {
       return {
         positionals: [
           {
             order: 1,
-            value: 'install'
-          }
+            value: 'install',
+          },
         ],
         options: [],
-      }
+      };
     }
 
-    const args =  argv._.filter(v => !v.toString().match(/run(-script)?/)).map((arg, i) => ({
-      order: i + 4,
-      value: arg.toString(),
-    }));
+    const args = argv._.filter(v => !v.toString().match(/run(-script)?/)).map(
+      (arg, i) => ({
+        order: i + 4,
+        value: arg.toString(),
+      }),
+    );
 
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
@@ -56,17 +69,17 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.YARN]: (argv) => {
+  [PackageManager.YARN]: argv => {
     if (shouldFallbackToInstall(argv)) {
       return {
         positionals: [
           {
             order: 1,
-            value: 'install'
-          }
+            value: 'install',
+          },
         ],
         options: [],
-      }
+      };
     }
 
     const meta: MetaConstructorsCommandMeta = {
@@ -79,27 +92,29 @@ const metaConstructors: MetaConstructors<typeof builder> = {
           order: 2,
           value: argv.script,
         },
-        ...argv._.filter(v => !v.toString().match(/run(-script)?/)).map((arg, i) => ({
-          order: i + 3,
-          value: arg.toString(),
-        })),
+        ...argv._.filter(v => !v.toString().match(/run(-script)?/)).map(
+          (arg, i) => ({
+            order: i + 3,
+            value: arg.toString(),
+          }),
+        ),
       ],
       options: [],
     };
 
     return meta;
   },
-  [PackageManager.PNPM]: (argv) => {
+  [PackageManager.PNPM]: argv => {
     if (shouldFallbackToInstall(argv)) {
       return {
         positionals: [
           {
             order: 1,
-            value: 'install'
-          }
+            value: 'install',
+          },
         ],
         options: [],
-      }
+      };
     }
 
     const meta: MetaConstructorsCommandMeta = {
@@ -112,10 +127,12 @@ const metaConstructors: MetaConstructors<typeof builder> = {
           order: 2,
           value: argv.script,
         },
-        ...argv._.filter(v => !v.toString().match(/run(-script)?/)).map((arg, i) => ({
-          order: i + 3,
-          value: arg.toString(),
-        })),
+        ...argv._.filter(v => !v.toString().match(/run(-script)?/)).map(
+          (arg, i) => ({
+            order: i + 3,
+            value: arg.toString(),
+          }),
+        ),
       ],
       options: [],
     };
@@ -123,7 +140,6 @@ const metaConstructors: MetaConstructors<typeof builder> = {
     return meta;
   },
 };
-
 
 const commandModule: MyCommandModule<typeof builder> = {
   command: 'run [script]',

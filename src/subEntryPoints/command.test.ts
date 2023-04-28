@@ -19,7 +19,10 @@ describe('subEntryPoints/command', () => {
 
     await run(process.argv, 'custom');
 
-    expect(runCommandModuleMock).toHaveBeenCalledWith(process.argv, 'customCommand');
+    expect(runCommandModuleMock).toHaveBeenCalledWith(
+      process.argv,
+      'customCommand',
+    );
   });
 
   it('should call runCommandModule with the default command name when requested command name is not provided', async () => {
@@ -43,6 +46,8 @@ describe('subEntryPoints/command', () => {
   it('should throw an error when unable to read commandsMap.json', async () => {
     readFileMock.mockRejectedValue(new Error('Unable to read file'));
 
-    await expect(() => run(process.argv)).rejects.toThrow('Unable to read command list');
+    await expect(() => run(process.argv)).rejects.toThrow(
+      'Unable to read command list',
+    );
   });
 });

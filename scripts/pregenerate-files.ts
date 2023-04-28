@@ -7,7 +7,13 @@ export async function execute() {
 
   let yargsLocal = yargs
     .scriptName('unpm')
+    .help('h')
+    .alias('help', 'h')
     .parserConfiguration({ 'unknown-options-as-args': true })
+    .example('$0', 'Install all packages in the project')
+    .example('$0 install express', 'Install express package')
+    .example('$0 add nodemon --dev', 'Install nodemon package as devDependency')
+    .example('$0 dev', 'Run "dev" script');
 
   const commandsLocations = resolve(__dirname, '../dist/commands');
   const commandsFiles = await readdir(commandsLocations);
@@ -16,8 +22,10 @@ export async function execute() {
 
   for (const commandFile of commandsFiles) {
     const commandName = commandFile.replace(/\..*/, '');
-    
-    const commandModule = await import(`../dist/commands/${commandFile}`).then(m => m.default)
+
+    const commandModule = await import(`../dist/commands/${commandFile}`).then(
+      m => m.default,
+    );
 
     commandsMap[commandName] = commandName;
 
@@ -31,7 +39,9 @@ export async function execute() {
   }
 
   const generatedFolderLocation = resolve(__dirname, '../generated');
-  await access(generatedFolderLocation).catch(() => mkdir(generatedFolderLocation));
+  await access(generatedFolderLocation).catch(() =>
+    mkdir(generatedFolderLocation),
+  );
 
   const helpFileLocation = resolve(generatedFolderLocation, 'help.txt');
   const helpText = await yargsLocal.getHelp();
@@ -40,7 +50,7 @@ export async function execute() {
   const commandsMapFileLocation = resolve(
     generatedFolderLocation,
     'commandsMap.json',
-  )
+  );
   await writeFile(commandsMapFileLocation, JSON.stringify(commandsMap));
 
   // version.txt

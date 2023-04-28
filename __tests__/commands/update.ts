@@ -66,6 +66,7 @@ const testSuite: CommandTestSuite = {
     },
     {
       input: ['unpm update ts-node --global', 'unpm update ts-node -g'],
+      globalPm: true,
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm update ts-node --global',

@@ -8,7 +8,9 @@ import { createConfigFileIfNotExists } from './internal/createConfigFileIfNotExi
 jest.mock('./internal/createConfigFileIfNotExists');
 jest.mock('./internal/updateConfigFile');
 
-const createConfigFileIfNotExistsMock = jest.mocked(createConfigFileIfNotExists);
+const createConfigFileIfNotExistsMock = jest.mocked(
+  createConfigFileIfNotExists,
+);
 const updateConfigFileMock = jest.mocked(updateConfigFile);
 
 describe('config/updateConfig', () => {
@@ -34,8 +36,6 @@ describe('config/updateConfig', () => {
     expect(createConfigFileIfNotExistsMock).toHaveBeenCalled();
     expect(updateConfigFileMock).not.toHaveBeenCalled();
   });
-
-
 
   it('should call updateConfigFile and return its result if createConfigFileIfNotExists returns nullish', async () => {
     createConfigFileIfNotExistsMock.mockResolvedValue(null);

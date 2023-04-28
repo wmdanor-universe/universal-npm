@@ -1,5 +1,9 @@
-import { MetaConstructors, MetaConstructorsCommandMeta, MyCommandModule } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+  MyCommandModule,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { NotSupportedError } from '../errors/NotSupportedError';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
@@ -30,7 +34,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
       positionals: [
         {
           order: 1,
-          value: 'licenses',
+          value: 'licenses list',
         },
       ],
       options: [],
@@ -39,7 +43,6 @@ const metaConstructors: MetaConstructors<typeof builder> = {
     return meta;
   },
 };
-
 
 const commandModule: MyCommandModule<typeof builder> = {
   command: 'licenses',

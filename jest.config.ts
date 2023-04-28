@@ -1,8 +1,9 @@
-const fs = require('fs');
+import type { Config } from '@jest/types';
+import { readFileSync } from 'fs';
 
-const swcConfig = JSON.parse(fs.readFileSync(`${__dirname}/.swcrc`, "utf-8"));
+const swcConfig = JSON.parse(readFileSync(`${__dirname}/.swcrc`, 'utf-8'));
 
-module.exports = {
+const config: Config.InitialOptions = {
   testMatch: [
     "**/*.test.ts",
   ],
@@ -18,4 +19,5 @@ module.exports = {
   },
   testEnvironment: 'node',
 };
- 
+
+export default config;

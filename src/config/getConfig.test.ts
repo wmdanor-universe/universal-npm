@@ -7,12 +7,14 @@ import { UnpmConfig } from './types';
 jest.mock('./internal/createConfigFileIfNotExists');
 jest.mock('./internal/readConfigFile');
 
-const createConfigFileIfNotExistsMock = jest.mocked(createConfigFileIfNotExists);
+const createConfigFileIfNotExistsMock = jest.mocked(
+  createConfigFileIfNotExists,
+);
 const readConfigFileMock = jest.mocked(readConfigFile);
 
 describe('config/getConfig', () => {
   const mockConfig: UnpmConfig = {
-    ...defaultConfig
+    ...defaultConfig,
   };
 
   afterEach(() => {

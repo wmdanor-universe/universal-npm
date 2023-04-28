@@ -16,10 +16,13 @@ async function getCommandName(): Promise<string> {
   const { createInterface } = await import('readline');
 
   const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const prompt = (query: string) => new Promise<string>(resolve => rl.question(query, resolve));
+  const prompt = (query: string) =>
+    new Promise<string>(resolve => rl.question(query, resolve));
 
   while (true) {
-    const commandName = await prompt('Enter the command name: ').then(s => s.trim());
+    const commandName = await prompt('Enter the command name: ').then(s =>
+      s.trim(),
+    );
 
     if (commandName?.length > 0) {
       rl.close();
@@ -49,8 +52,14 @@ export async function createCommandFile(commandName: string): Promise<void> {
   const templateFileLocation = resolve(commandsFolderLocation, '_template.ts');
   const templateFileContent = await readFile(templateFileLocation, 'utf-8');
 
-  const commandFileLocation = resolve(commandsFolderLocation, commandName + '.ts');
-  const commandFileContent = templateFileContent.replace('{{command}}', commandName);
+  const commandFileLocation = resolve(
+    commandsFolderLocation,
+    commandName + '.ts',
+  );
+  const commandFileContent = templateFileContent.replace(
+    '{{command}}',
+    commandName,
+  );
   await writeFile(commandFileLocation, commandFileContent, 'utf-8');
 }
 

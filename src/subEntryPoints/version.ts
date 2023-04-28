@@ -4,7 +4,13 @@ import { printText } from '../io/printText';
 
 export default async function run(): Promise<void> {
   try {
-    const versionFileLocation = resolve(__dirname, '..', '..', 'generated', 'version.txt');
+    const versionFileLocation = resolve(
+      __dirname,
+      '..',
+      '..',
+      'generated',
+      'version.txt',
+    );
     const versionText = await readFile(versionFileLocation, 'utf-8');
 
     printText(versionText);

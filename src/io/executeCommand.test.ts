@@ -5,12 +5,19 @@ jest.mock('child_process');
 
 const execMock = jest.mocked(exec);
 
-type ExecCallback = (error: ExecException | null, stdout: string, stderr: string) => void;
+type ExecCallback = (
+  error: ExecException | null,
+  stdout: string,
+  stderr: string,
+) => void;
 
 describe('io/executeCommand', () => {
-  jest.spyOn(process, 'stdin', 'get').mockImplementation(() => ({
-    pipe: jest.fn(),
-  }) as unknown as NodeJS.ReadStream & { fd: 0; });
+  jest.spyOn(process, 'stdin', 'get').mockImplementation(
+    () =>
+      ({
+        pipe: jest.fn(),
+      } as unknown as NodeJS.ReadStream & { fd: 0 }),
+  );
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -23,8 +30,13 @@ describe('io/executeCommand', () => {
       return {} as unknown as ChildProcess;
     });
 
-    await expect(executeCommand('echo "Hello, World!"')).resolves.toBeUndefined();
-    expect(exec).toHaveBeenCalledWith('echo "Hello, World!"', expect.any(Function));
+    await expect(
+      executeCommand('echo "Hello, World!"'),
+    ).resolves.toBeUndefined();
+    expect(exec).toHaveBeenCalledWith(
+      'echo "Hello, World!"',
+      expect.any(Function),
+    );
   });
 
   it('should reject with error, stdout, and stderr when the command execution fails', async () => {
@@ -38,8 +50,15 @@ describe('io/executeCommand', () => {
       return {} as unknown as ChildProcess;
     });
 
-    await expect(executeCommand('nonexistent-command')).rejects.toEqual({ error, stdout, stderr });
-    expect(exec).toHaveBeenCalledWith('nonexistent-command', expect.any(Function));
+    await expect(executeCommand('nonexistent-command')).rejects.toEqual({
+      error,
+      stdout,
+      stderr,
+    });
+    expect(exec).toHaveBeenCalledWith(
+      'nonexistent-command',
+      expect.any(Function),
+    );
   });
 
   it('should pipe stdout and stderr to process stdout and stderr', () => {
@@ -47,7 +66,10 @@ describe('io/executeCommand', () => {
     const stderrMock = { pipe: jest.fn() };
 
     execMock.mockImplementation(() => {
-      return { stdout: stdoutMock, stderr: stderrMock } as unknown as ChildProcess;
+      return {
+        stdout: stdoutMock,
+        stderr: stderrMock,
+      } as unknown as ChildProcess;
     });
 
     executeCommand('echo "Hello, World!"');

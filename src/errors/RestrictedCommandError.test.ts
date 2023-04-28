@@ -6,7 +6,9 @@ describe('errors/RestrictedCommandError', () => {
 
     const error = new RestrictedCommandError(commandName);
 
-    expect(error.message).toBe(`"${commandName}" command is not implemented by unpm, please use your package manager directly for it`);
+    expect(error.message).toBe(
+      `"${commandName}" command is not implemented by unpm, please use your package manager directly for it`,
+    );
   });
 
   it('should construct a valid error message with a command name and a reason', () => {
@@ -15,6 +17,8 @@ describe('errors/RestrictedCommandError', () => {
 
     const error = new RestrictedCommandError(commandName, reason);
 
-    expect(error.message).toBe(`"${commandName}" command is not implemented by unpm, please use your package manager directly for it, reason: "${reason}"`);
+    expect(error.message).toBe(
+      `"${commandName}" command is not implemented by unpm, please use your package manager directly for it, reason: "${reason}"`,
+    );
   });
 });

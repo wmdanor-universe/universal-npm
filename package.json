@@ -1,6 +1,6 @@
 {
   "name": "universal-npm",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Universal Node.js Package Manager",
   "license": "Apache-2.0",
   "author": "wmdanor",
@@ -37,6 +37,7 @@
     "unpm": "dist/bin/unpm.js"
   },
   "devDependencies": {
+    "@jest/types": "^29.5.0",
     "@swc/cli": "^0.1.62",
     "@swc/core": "^1.3.44",
     "@swc/jest": "^0.2.24",

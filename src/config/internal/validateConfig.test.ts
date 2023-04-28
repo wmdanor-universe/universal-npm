@@ -5,6 +5,7 @@ describe('config/internal/validateConfig', () => {
   it('should return null if the config is valid', async () => {
     const validConfig: UnpmConfig = {
       defaultPm: 'yarn',
+      globalPm: null,
     };
 
     const result = await validateConfig(validConfig);

@@ -7,14 +7,22 @@ export default async function run(
 ): Promise<void> {
   const commandName = await getCommandName(requestedCommandName);
 
-  const { runCommandModule } = await import('../commandHandler/runCommandModule');
+  const { runCommandModule } = await import(
+    '../commandHandler/runCommandModule'
+  );
 
   await runCommandModule(argv, commandName);
 }
 
 async function getCommandName(requestedCommandName = 'run'): Promise<string> {
   try {
-    const commandsMapFileLocation = resolve(__dirname, '..', '..', 'generated', 'commandsMap.json');
+    const commandsMapFileLocation = resolve(
+      __dirname,
+      '..',
+      '..',
+      'generated',
+      'commandsMap.json',
+    );
     const commandsMapText = await readFile(commandsMapFileLocation, 'utf-8');
     const commandsMap = JSON.parse(commandsMapText);
 

@@ -1,12 +1,12 @@
-import { setDefaultPackageManager } from './setDefaultPackageManager';
 import { updateConfig } from './updateConfig';
 import { PackageManager } from '../packageManager/packageManager';
+import { setGlobalPackageManager } from './setGlobalPackageManager';
 
 jest.mock('./updateConfig');
 
 const updateConfigMock = jest.mocked(updateConfig);
 
-describe('config/setDefaultPackageManager', () => {
+describe('config/setGlobalPackageManager', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -14,10 +14,10 @@ describe('config/setDefaultPackageManager', () => {
   it('should call updateConfigFile with the correct argument', async () => {
     const mockPackageManager = PackageManager.YARN;
 
-    await setDefaultPackageManager(mockPackageManager);
+    await setGlobalPackageManager(mockPackageManager);
 
     expect(updateConfigMock).toHaveBeenCalledWith({
-      defaultPm: mockPackageManager,
+      globalPm: mockPackageManager,
     });
   });
 });

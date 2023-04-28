@@ -1,5 +1,5 @@
 import { isPackageManager } from './isPackageManager';
-import { PackageManager } from "./packageManager";
+import { PackageManager } from './packageManager';
 
 describe('packageManager/isPackageManager', () => {
   it('should return null for non-string input', () => {

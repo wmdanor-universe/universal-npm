@@ -147,6 +147,7 @@ const testSuite: CommandTestSuite = {
         'unpm install express --global',
         'unpm install express -g',
       ],
+      globalPm: true,
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm install express --global',

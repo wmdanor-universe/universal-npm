@@ -1,5 +1,9 @@
-import { MetaConstructors, MetaConstructorsCommandMeta, MyCommandModule } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+  MyCommandModule,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
@@ -19,7 +23,7 @@ const builder = (yargs: Argv) => {
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {
-  [PackageManager.NPM]: (argv) => {
+  [PackageManager.NPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
@@ -29,7 +33,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           order: 2,
           value: argv.packages,
-        }
+        },
       ],
       options: [
         {
@@ -41,7 +45,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.YARN]: (argv) => {
+  [PackageManager.YARN]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
@@ -56,14 +60,14 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           order: 2,
           value: argv.packages,
-        }
+        },
       ],
       options: [],
     };
 
     return meta;
   },
-  [PackageManager.PNPM]: (argv) => {
+  [PackageManager.PNPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
@@ -73,7 +77,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
         {
           order: 2,
           value: argv.packages,
-        }
+        },
       ],
       options: [
         {
@@ -87,7 +91,6 @@ const metaConstructors: MetaConstructors<typeof builder> = {
   },
 };
 
-
 const commandModule: MyCommandModule<typeof builder> = {
   command: 'uninstall <packages..>',
   aliases: ['remove', 'rm', 'r', 'un'],
@@ -96,7 +99,7 @@ const commandModule: MyCommandModule<typeof builder> = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   builder,
-  handler: createBaseCommandHandler(metaConstructors),
+  handler: createBaseCommandHandler.global(metaConstructors),
 };
 
 export default commandModule;

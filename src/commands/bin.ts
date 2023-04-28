@@ -1,44 +1,47 @@
 import { NotSupportedError } from '../errors/NotSupportedError';
-import { MetaConstructors, MetaConstructorsCommandMeta, MyCommandModule } from '../commandHandler/types';
-import { PackageManager } from "../packageManager/packageManager";
+import {
+  MetaConstructors,
+  MetaConstructorsCommandMeta,
+  MyCommandModule,
+} from '../commandHandler/types';
+import { PackageManager } from '../packageManager/packageManager';
 import { Argv } from 'yargs';
 import { createBaseCommandHandler } from '../commandHandler/createBaseCommandHandler';
 
 const builder = (yargs: Argv) => {
-  return yargs
-    .option('global', {
-      alias: ['g'],
-      describe: 'Print the location of the globally installed executables.',
-      type: 'boolean',
-    });
+  return yargs.option('global', {
+    alias: ['g'],
+    describe: 'Print the location of the globally installed executables.',
+    type: 'boolean',
+  });
 };
 
 const metaConstructors: MetaConstructors<typeof builder> = {
-  [PackageManager.NPM]: (argv) => {
+  [PackageManager.NPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 1,
-          value: 'bin'
-        }
+          value: 'bin',
+        },
       ],
       options: [
         {
           name: '--global',
           value: argv.global,
-        }
+        },
       ],
     };
 
     return meta;
   },
-  [PackageManager.YARN]: (argv) => {
+  [PackageManager.YARN]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 1,
-          value: 'bin'
-        }
+          value: 'bin',
+        },
       ],
       options: [],
     };
@@ -49,19 +52,19 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 
     return meta;
   },
-  [PackageManager.PNPM]: (argv) => {
+  [PackageManager.PNPM]: argv => {
     const meta: MetaConstructorsCommandMeta = {
       positionals: [
         {
           order: 1,
-          value: 'bin'
-        }
+          value: 'bin',
+        },
       ],
       options: [
         {
           name: '--global',
           value: argv.global,
-        }
+        },
       ],
     };
 
@@ -72,12 +75,13 @@ const metaConstructors: MetaConstructors<typeof builder> = {
 const commandModule: MyCommandModule<typeof builder> = {
   command: 'bin',
   aliases: [],
-  describe: 'Prints the directory into which the executables of dependencies are linked',
+  describe:
+    'Prints the directory into which the executables of dependencies are linked',
   // See README.md ## FAQ
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   builder,
-  handler: createBaseCommandHandler(metaConstructors),
+  handler: createBaseCommandHandler.global(metaConstructors),
 };
 
 export default commandModule;
