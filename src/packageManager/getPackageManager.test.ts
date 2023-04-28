@@ -1,9 +1,10 @@
 import { PackageManager } from "./packageManager";
-import getPreferredPackageManager from 'preferred-pm';
+import { getPreferredPackageManager } from './getPreferredPackageManager';
 import { getDefaultPackageManager } from "../config/getDefaultPackageManager";
 import { getPackageManager } from './getPackageManager';
 
 jest.mock('preferred-pm');
+jest.mock('./getPreferredPackageManager');
 jest.mock('../config/getDefaultPackageManager');
 
 const getPreferredPackageManagerMock = jest.mocked(getPreferredPackageManager);
@@ -15,7 +16,7 @@ describe('packageManager/getPackageManager', () => {
   });
 
   it('returns the default package manager if the preferred package manager is not available', async () => {
-    getPreferredPackageManagerMock.mockResolvedValue(undefined);
+    getPreferredPackageManagerMock.mockResolvedValue(null);
     getDefaultPackageManagerMock.mockResolvedValue(PackageManager.PNPM);
 
     const packageManager = await getPackageManager();
@@ -23,21 +24,21 @@ describe('packageManager/getPackageManager', () => {
   });
 
   it('returns PackageManager.NPM when preferred package manager is npm', async () => {
-    getPreferredPackageManagerMock.mockResolvedValue({ name: 'npm', version: '' });
+    getPreferredPackageManagerMock.mockResolvedValue(PackageManager.NPM);
 
     const packageManager = await getPackageManager();
     expect(packageManager).toBe(PackageManager.NPM);
   });
 
   it('returns PackageManager.YARN when preferred package manager is yarn', async () => {
-    getPreferredPackageManagerMock.mockResolvedValue({ name: 'yarn', version: '' });
+    getPreferredPackageManagerMock.mockResolvedValue(PackageManager.YARN);
 
     const packageManager = await getPackageManager();
     expect(packageManager).toBe(PackageManager.YARN);
   });
 
   it('returns PackageManager.PNPM when preferred package manager is pnpm', async () => {
-    getPreferredPackageManagerMock.mockResolvedValue({ name: 'pnpm', version: '' });
+    getPreferredPackageManagerMock.mockResolvedValue(PackageManager.PNPM);
 
     const packageManager = await getPackageManager();
     expect(packageManager).toBe(PackageManager.PNPM);

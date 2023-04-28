@@ -1,14 +1,16 @@
 import { getDefaultPackageManager } from '../src/config/getDefaultPackageManager';
+import { getGlobalPackageManager } from '../src/config/getGlobalPackageManager';
 import { executeCommand } from '../src/io/executeCommand';
 import { execute as executeBin } from '../src/bin/unpm';
-import { PackageManager } from '../src/packageManager/packageManager';
-import * as path from 'path'
-import { CommandTestSuite } from './types';
+import { PackageManager, PackageManagers } from '../src/packageManager/packageManager';
+import path from 'path'
+import { CommandTestSuite, TestCaseOutcome } from './types';
 import { readdirSync } from 'fs';
 import { printError } from '../src/io/printError';
 import { exit } from '../src/process/exit';
 
 jest.mock('../src/config/getDefaultPackageManager');
+jest.mock('../src/config/getGlobalPackageManager');
 jest.mock('../src/io/executeCommand');
 jest.mock('../src/io/printError');
 jest.mock('../src/process/exit');
@@ -16,6 +18,7 @@ jest.mock('../src/process/exit');
 jest.mock('preferred-pm', () => () => Promise.resolve(undefined));
 
 const getDefaultPackageManagerMock = jest.mocked(getDefaultPackageManager);
+const getGlobalPackageManagerMock = jest.mocked(getGlobalPackageManager);
 const executeCommandMock = jest.mocked(executeCommand).mockResolvedValue();
 const printErrorMock = jest.mocked(printError);
 const exitMock = jest.mocked(exit);
@@ -128,18 +131,69 @@ describe('commands', () => {
     .filter((testSuite: CommandTestSuite) => testSuite.testCases.length > 0);
   
   describe.each(commandsTestSuites)('"$commandName" command', ({ testCases }) => {
-    for (const testCase of testCases) {
-      const inputs = Array.isArray(testCase.input) ? testCase.input.map(input => ({
-        input,
-        expected: testCase.expected,
-      })) : [{
-        input: testCase.input,
-        expected: testCase.expected,
-      }];
+    for (const { input: testCaseInput, expected, globalPm } of testCases) {
+      type InputSuiteMeta = {
+        input: string;
+        globalPm: PackageManager | null;
+        expected: Record<PackageManager, TestCaseOutcome>;
+      }
 
-      describe.each(inputs)('input: "$input"', (testCase) => {
-        it.each([PackageManager.NPM, PackageManager.YARN, PackageManager.PNPM])('package manager: "%s"', async (packageManager) => {
+      const inputs: InputSuiteMeta[] = Array.isArray(testCaseInput) ? testCaseInput.reduce((acc, input) => {
+        if (globalPm) {
+          acc.push(...[...PackageManagers].map(packageManager => ({
+            expected: [...PackageManagers].reduce((newExpected, i) => {
+              newExpected[i] = expected[packageManager];
+
+              return newExpected;
+            }, {} as Record<PackageManager, TestCaseOutcome>),
+            globalPm: packageManager,
+            input,
+          })));
+        }
+
+        acc.push({
+          expected,
+          globalPm: null,
+          input,
+        });
+
+        return acc;
+      }, [] as InputSuiteMeta[]) : (
+        globalPm ?
+        [
+          ...[...PackageManagers].map(packageManager => ({
+            expected: [...PackageManagers].reduce((newExpected, i) => {
+              newExpected[i] = expected[packageManager];
+
+              return newExpected;
+            }, {} as Record<PackageManager, TestCaseOutcome>),
+            globalPm: packageManager,
+            input: testCaseInput,
+          })),
+          {
+            expected,
+            globalPm: null,
+            input: testCaseInput,
+          }
+        ] :
+        [{
+          expected,
+          globalPm: null,
+          input: testCaseInput,
+        }]
+      );
+
+      const inputSuiteText = globalPm ? `input (globalPm: $globalPm): "$input"` : 'input: "$input"';
+
+      describe.each(inputs)(inputSuiteText, (testCase) => {
+        const testCases = [...PackageManagers].map(packageManager => ({
+          packageManager,
+          ...testCase,
+          expected: testCase.expected[packageManager],
+        }));
+        it.each(testCases)('package manager: "$packageManager" - $expected', async ({ packageManager }) => {
           getDefaultPackageManagerMock.mockResolvedValue(packageManager);
+          getGlobalPackageManagerMock.mockResolvedValue(testCase.globalPm);
           const expected = testCase.expected[packageManager];
 
           const result = await emulateUnpmCall(testCase.input);
@@ -147,6 +201,10 @@ describe('commands', () => {
           if ('expectedGeneratedCommand' in expected) {
             const generatedCommand = executeCommandMock.mock.calls[0]?.[0];
 
+            if (testCase.globalPm) {
+              expect(getGlobalPackageManagerMock).toHaveBeenCalledTimes(1);
+              expect(getDefaultPackageManagerMock).toHaveBeenCalledTimes(0);
+            }
             expect(generatedCommand).toMatchExtended(expected.expectedGeneratedCommand);
             expect(result.status).toBe('ok');
             expect(executeCommandMock).toHaveBeenCalled();

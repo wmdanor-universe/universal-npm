@@ -94,7 +94,7 @@ const commandModule: MyCommandModule<typeof builder> = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   builder,
-  handler: createBaseCommandHandler(metaConstructors),
+  handler: createBaseCommandHandler.global(metaConstructors),
 };
 
 export default commandModule;

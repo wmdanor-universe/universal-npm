@@ -48,6 +48,7 @@ const testSuite: CommandTestSuite = {
     },
     {
       input: ['unpm outdated --global', 'unpm outdated -g'],
+      globalPm: true,
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm outdated --global',

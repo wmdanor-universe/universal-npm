@@ -20,6 +20,7 @@ const testSuite: CommandTestSuite = {
     },
     {
       input: ['unpm bin --global', 'unpm bin -g'],
+      globalPm: true,
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm bin --global',

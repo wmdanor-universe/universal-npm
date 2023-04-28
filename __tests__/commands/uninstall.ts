@@ -54,6 +54,7 @@ const testSuite: CommandTestSuite = {
     },
     {
       input: ['unpm remove ts-node --global', 'unpm remove ts-node -g'],
+      globalPm: true,
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm uninstall ts-node --global',

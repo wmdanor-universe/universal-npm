@@ -34,6 +34,7 @@ const testSuite: CommandTestSuite = {
     },
     {
       input: ['unpm list --global', 'unpm list -g'],
+      globalPm: true,
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm ls --global',
