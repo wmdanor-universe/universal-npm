@@ -30,7 +30,7 @@ const metaConstructors: MetaConstructors<typeof builder> = {
       positionals: [
         {
           order: 1,
-          value: 'licenses',
+          value: 'licenses list',
         },
       ],
       options: [],

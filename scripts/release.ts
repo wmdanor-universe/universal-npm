@@ -33,16 +33,6 @@ function prompt(query: string): Promise<string> {
 }
 
 export async function execute() {
-  console.log('Release script started');
-
-  const releaseType = process.argv[2] ?? await prompt('Input release type [major | minor | patch]: ');
-
-  if (!['major', 'minor', 'patch'].includes(releaseType)) {
-    console.error('Release type can be only be one of [major | minor | patch], you entered:', releaseType);
-
-    exit(1);
-  }
-
   console.log('Running checks:');
 
   await execPipe('npm run typecheck');
@@ -55,8 +45,6 @@ export async function execute() {
     
     exit(0);
   }
-
-  await execPipe(`npm version ${releaseType}`);
 
   await execPipe('npm run build');
 
