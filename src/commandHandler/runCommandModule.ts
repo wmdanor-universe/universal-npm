@@ -9,7 +9,8 @@ export async function runCommandModule(argv: string[], commandName: string): Pro
     .parserConfiguration({ 'unknown-options-as-args': true })
     .command(commandModule)
     .version(false)
-    .help()
+    .help('h')
+    .alias('help', 'h') // TODO: add test for this alias
     .fail((message, error) => {
       throw error ?? new Error(message);
     })

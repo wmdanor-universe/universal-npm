@@ -12,6 +12,7 @@ jest.mock('yargs/yargs', () => () => {
     help: jest.fn().mockReturnThis(),
     fail: jest.fn().mockReturnThis(),
     parseAsync: jest.fn().mockResolvedValue(undefined),
+    alias: jest.fn().mockReturnThis(),
   };
 
   yargsInstanceMock = yargsMock as unknown as Argv;
@@ -40,9 +41,10 @@ describe('commandHandler/runCommandModule', () => {
     expect(yargsInstanceMock.parserConfiguration).toHaveBeenCalledWith({ 'unknown-options-as-args': true });
     expect(yargsInstanceMock.command).toHaveBeenCalled();
     expect(yargsInstanceMock.version).toHaveBeenCalledWith(false);
-    expect(yargsInstanceMock.help).toHaveBeenCalled();
+    expect(yargsInstanceMock.help).toHaveBeenCalledWith('h');
     expect(yargsInstanceMock.fail).toHaveBeenCalled();
     expect(yargsInstanceMock.parseAsync).toHaveBeenCalled();
+    expect(yargsInstanceMock.alias).toHaveBeenCalledWith('help', 'h');
   });
 
   it('should reject when command module is not found', async () => {
