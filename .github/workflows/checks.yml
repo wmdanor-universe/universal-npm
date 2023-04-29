@@ -6,6 +6,31 @@ on:
     branches: [ "main" ]
 
 jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get version info
+        uses: wmdanor-universe/node-project-semver-check@v0.1.0
+        id: checkVersion
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check version
+        run: |
+          if [[ steps.checkVersion.outputs.isValid != false ]]; then
+            echo "Version is not valid"
+            echo "thisBranchInitialVersion ${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}"
+            echo "thisBranchCurrentVersion ${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}"
+            echo "mainBranchCurrentVersion ${{ steps.checkVersion.outputs['mainBranchCurrentVersion.value'] }}"
+            echo "hasChanged ${{ steps.checkVersion.outputs.hasChanged }}"
+            echo "isValid ${{ steps.checkVersion.outputs.isValid }}"
+            exit 1
+          fi
+
+
   setup:
     runs-on: ubuntu-latest
     steps:
