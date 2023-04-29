@@ -1,0 +1,30 @@
+name: Create tag
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get version info
+        uses: wmdanor-universe/node-project-semver-check@v0.1.2
+        id: checkVersion
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Debug
+        run: |
+          echo v${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}
+      
+      # - name: Create git tag
+      #   run: |
+      #     git tag v${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}
+      #     git push --tags
+      
+

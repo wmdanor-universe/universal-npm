@@ -2,8 +2,12 @@ name: Release
 # TODO: finish script
 # TODO: add proper caching between jobs
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
+  # create:
+  #   tags:
+  #     - "*"
+
+# TODO: checkout to tagged commit
 
 jobs:
   setup:
@@ -11,20 +15,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Cache dependencies
-        uses: actions/cache@v3
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
 
   typecheck:
     needs: setup
@@ -32,13 +38,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: 'npm'
-      - run: npm ci --prefer-offline
-      - run: npm run typecheck
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run typecheck
+        run: pnpm typecheck
 
   lint:
     needs: setup
@@ -51,8 +61,12 @@ jobs:
         with:
           node-version: '16.x'
           cache: 'npm'
-      - run: npm ci --prefer-offline
-      - run: npm run lint
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run lint
+        run: pnpm lint
 
   test:
     needs: setup
@@ -65,6 +79,30 @@ jobs:
         with:
           node-version: '16.x'
           cache: 'npm'
-      - run: npm ci --prefer-offline
-      - run: npm run build
-      - run: npm run test
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run tests
+        run: pnpm test
+  
+  publish:
+    needs: [typecheck, lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+      
+      - name: Publish package
+        run: npm publish

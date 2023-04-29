@@ -16,15 +16,15 @@
     "aggregating"
   ],
   "scripts": {
-    "build": "npm run swc && npm run pregenerate-files",
-    "dev": "concurrently \"npm:typecheck:watch\" \"npm:swc:watch\" \"npm:pregenerate-files:watch\"",
+    "build": "pnpm swc && pnpm pregenerate-files",
+    "dev": "concurrently \"pnpm typecheck:watch\" \"pnpm swc:watch\" \"pnpm pregenerate-files:watch\"",
     "test": "jest",
     "swc": "swc src -d dist --delete-dir-on-start",
     "swc:watch": "swc src -d dist --delete-dir-on-start --watch",
     "typecheck": "tsc",
     "typecheck:watch": "tsc --watch --incremental",
     "pregenerate-files": "ts-node scripts/pregenerate-files.ts",
-    "pregenerate-files:watch": "nodemon --exec \"npm run pregenerate-files\" --watch dist",
+    "pregenerate-files:watch": "nodemon --exec \"pnpm pregenerate-files\" --watch dist",
     "lint": "eslint src/**/* scripts/**/*",
     "release": "ts-node scripts/release.ts",
     "create-command": "ts-node scripts/create-command.ts"

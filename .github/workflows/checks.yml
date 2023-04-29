@@ -30,7 +30,6 @@ jobs:
             exit 1
           fi
 
-
   setup:
     runs-on: ubuntu-latest
     steps:
