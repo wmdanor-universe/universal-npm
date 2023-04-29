@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get version info
-        uses: wmdanor-universe/node-project-semver-check@v0.1.0
+        uses: wmdanor-universe/node-project-semver-check@v0.1.1
         id: checkVersion
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
