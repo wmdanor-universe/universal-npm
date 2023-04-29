@@ -20,7 +20,7 @@ jobs:
 
       - name: Check version
         run: |
-          if [[ steps.checkVersion.outputs.isValid != false ]]; then
+          if [[ steps.checkVersion.outputs.isValid == false ]]; then
             echo "Version is not valid"
             echo "thisBranchInitialVersion ${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}"
             echo "thisBranchCurrentVersion ${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}"
@@ -40,6 +40,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -69,6 +76,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
       
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -101,7 +115,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: 'npm'
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
       
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -134,7 +154,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: 'npm'
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
       
       - name: Get pnpm store directory
         id: pnpm-cache
