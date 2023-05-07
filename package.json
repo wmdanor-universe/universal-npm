@@ -25,7 +25,7 @@
     "typecheck:watch": "tsc --watch --incremental",
     "pregenerate-files": "ts-node scripts/pregenerate-files.ts",
     "pregenerate-files:watch": "nodemon --exec \"pnpm pregenerate-files\" --watch dist",
-    "lint": "eslint src/**/* scripts/**/*",
+    "lint": "eslint src/**/* scripts/**/* __tests__/**/*",
     "release": "ts-node scripts/release.ts",
     "create-command": "ts-node scripts/create-command.ts"
   },

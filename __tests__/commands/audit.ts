@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'audit',
@@ -53,7 +53,8 @@ const testSuite: CommandTestSuite = {
           expectedGeneratedCommand: 'npm audit --only=prod --only=dev',
         },
         [PackageManager.YARN]: {
-          expectedGeneratedCommand: 'yarn audit --groups="dependencies devDependencies"',
+          expectedGeneratedCommand:
+            'yarn audit --groups="dependencies devDependencies"',
         },
         [PackageManager.PNPM]: {
           expectedGeneratedCommand: 'pnpm audit --prod --dev',

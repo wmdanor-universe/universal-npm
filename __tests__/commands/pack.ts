@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'pack',
@@ -26,13 +26,16 @@ const testSuite: CommandTestSuite = {
       ],
       expected: {
         [PackageManager.NPM]: {
-          expectedGeneratedCommand: 'npm pack --pack-destination=path/to/something',
+          expectedGeneratedCommand:
+            'npm pack --pack-destination=path/to/something',
         },
         [PackageManager.YARN]: {
-          expectedErrorOutput: '"pack --pack-destination <dir>" is not supported by yarn',
+          expectedErrorOutput:
+            '"pack --pack-destination <dir>" is not supported by yarn',
         },
         [PackageManager.PNPM]: {
-          expectedGeneratedCommand: 'pnpm pack --pack-destination=path/to/something',
+          expectedGeneratedCommand:
+            'pnpm pack --pack-destination=path/to/something',
         },
       },
     },

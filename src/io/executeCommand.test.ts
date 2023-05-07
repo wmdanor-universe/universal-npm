@@ -1,6 +1,6 @@
 import { executeCommand } from './executeCommand';
 import { ChildProcess, spawn } from 'child_process';
-import supportsColor, { ColorSupportLevel } from 'supports-color';
+import supportsColor from 'supports-color';
 
 jest.mock('child_process');
 

@@ -1,4 +1,4 @@
-import { PackageManager } from "../src/packageManager/packageManager";
+import { PackageManager } from '../src/packageManager/packageManager';
 
 export interface TestCaseOutcome__Success {
   expectedGeneratedCommand: string | RegExp | ((value: string) => boolean);

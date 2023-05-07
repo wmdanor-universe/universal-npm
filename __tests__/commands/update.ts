@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'update',
@@ -19,11 +19,7 @@ const testSuite: CommandTestSuite = {
       },
     },
     {
-      input: [
-        'unpm update express',
-        'unpm upgrade express',
-        'unpm up express',
-      ],
+      input: ['unpm update express', 'unpm upgrade express', 'unpm up express'],
       expected: {
         [PackageManager.NPM]: {
           expectedGeneratedCommand: 'npm update express',

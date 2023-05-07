@@ -1,7 +1,8 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
-const errorMessage = '"publish" command is not implemented by unpm, ' +
+const errorMessage =
+  '"publish" command is not implemented by unpm, ' +
   'please use your package manager directly for it';
 
 const testSuite: CommandTestSuite = {
@@ -20,7 +21,7 @@ const testSuite: CommandTestSuite = {
           expectedErrorOutput: errorMessage,
         },
       },
-    }
+    },
   ],
 };
 

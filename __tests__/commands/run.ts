@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'run',
@@ -50,13 +50,16 @@ const testSuite: CommandTestSuite = {
       input: 'unpm cmd --optional positional --opt=2',
       expected: {
         [PackageManager.NPM]: {
-          expectedGeneratedCommand: 'npm run cmd -- --optional positional --opt=2',
+          expectedGeneratedCommand:
+            'npm run cmd -- --optional positional --opt=2',
         },
         [PackageManager.YARN]: {
-          expectedGeneratedCommand: 'yarn run cmd --optional positional --opt=2',
+          expectedGeneratedCommand:
+            'yarn run cmd --optional positional --opt=2',
         },
         [PackageManager.PNPM]: {
-          expectedGeneratedCommand: 'pnpm run cmd --optional positional --opt=2',
+          expectedGeneratedCommand:
+            'pnpm run cmd --optional positional --opt=2',
         },
       },
     },
