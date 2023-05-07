@@ -34,14 +34,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup
-        uses: '../actions/setup'
+        uses: './.github/actions/setup'
 
   typecheck:
     needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Setup
-        uses: '../actions/setup'
+        uses: './.github/actions/setup'
 
       - name: Run typecheck
         run: pnpm typecheck
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup
-        uses: '../actions/setup'
+        uses: './.github/actions/setup'
 
       - name: Run lint
         run: pnpm lint
@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup
-        uses: '../actions/setup'
+        uses: './.github/actions/setup'
 
       - name: Run tests
         run: pnpm test

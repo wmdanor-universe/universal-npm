@@ -3,8 +3,8 @@ name: 'Setup'
 description: 'Checkout, setup Node.js and pnpm'
 
 inputs:
-  install-dependencies:
-    description: 'Set to "true" to also install dependencies'
+  skip-install:
+    description: 'Set to "true" to skip dependencies installation'
 
 runs:
   using: "composite"
@@ -24,6 +24,6 @@ runs:
         cache: pnpm
     
     - name: Install dependencies
-      if: ${{ inputs.install-dependencies == 'true' }}
+      if: ${{ inputs.skip-install != 'true' }}
       shell: bash
       run: pnpm install --frozen-lockfile
