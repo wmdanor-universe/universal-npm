@@ -21,3 +21,4 @@ jobs:
         uses: rickstaa/action-create-tag@v1
         with:
           tag: "v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
