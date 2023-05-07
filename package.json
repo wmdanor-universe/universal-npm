@@ -31,7 +31,8 @@
   },
   "files": [
     "dist",
-    "generated"
+    "generated",
+    "external/**/*.js"
   ],
   "bin": {
     "unpm": "dist/bin/unpm.js"

@@ -3,7 +3,7 @@ import { ChildProcess, spawn } from 'child_process';
 
 jest.mock('child_process');
 
-jest.mock('../__external__/supports-color', () => {
+jest.mock('../.././external/supports-color', () => {
   return {
     __esModule: true,
     default: {
