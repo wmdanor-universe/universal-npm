@@ -4,9 +4,7 @@ description: 'Checkout, setup Node.js and pnpm'
 
 inputs:
   install-dependencies:
-    description: 'Install dependencies, run "pnpm install --frozen-lockfile"'
-    required: true
-    default: false
+    description: 'Set to "true" to also install dependencies'
 
 runs:
   using: "composite"
@@ -27,4 +25,5 @@ runs:
     
     - name: Install dependencies
       if: ${{ inputs.install-dependencies == 'true' }}
+      shell: bash
       run: pnpm install --frozen-lockfile
