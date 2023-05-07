@@ -16,10 +16,8 @@ jobs:
         id: checkVersion
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Create git tag
-        run: |
-          git tag v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
-          git push --tags
-      
 
+      - name: Create git tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}"
