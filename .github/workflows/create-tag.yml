@@ -1,9 +1,10 @@
 name: Create tag
 
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
     branches: [ "main" ]
+  # push:
+  #   branches: [ "main" ]
 
 jobs:
   create-tag:
@@ -20,11 +21,11 @@ jobs:
       
       - name: Debug
         run: |
-          echo v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
+          echo v${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}
       
       # - name: Create git tag
       #   run: |
-      #     git tag v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
+      #     git tag v${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}
       #     git push --tags
       
 
