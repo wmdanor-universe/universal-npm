@@ -74,8 +74,8 @@ jobs:
       - name: Setup
         uses: './.github/actions/setup'
 
-      - name: Generate files
-        run: pnpm pregenerate-files
+      - name: Build
+        run: pnpm build
 
       - name: Run tests
         run: pnpm test
