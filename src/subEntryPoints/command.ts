@@ -27,7 +27,8 @@ async function getCommandName(requestedCommandName = 'run'): Promise<string> {
     const commandsMap = JSON.parse(commandsMapText);
 
     return commandsMap[requestedCommandName] ?? 'run';
-  } catch {
+  } catch (e) {
+    console.log('BRUH', e);
     throw new Error(`Unable to read command list`);
   }
 }
