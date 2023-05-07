@@ -20,11 +20,11 @@ jobs:
       
       - name: Debug
         run: |
-          echo v${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}
+          echo v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
       
       # - name: Create git tag
       #   run: |
-      #     git tag v${{ steps.checkVersion.outputs['thisBranchInitialVersion.value'] }}
+      #     git tag v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
       #     git push --tags
       
 

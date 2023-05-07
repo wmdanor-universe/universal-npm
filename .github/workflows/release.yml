@@ -1,6 +1,5 @@
 name: Release
-# TODO: finish script
-# TODO: add proper caching between jobs
+
 on:
   workflow_dispatch:
   # create:
@@ -123,3 +122,5 @@ jobs:
       
       - name: Publish package
         run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

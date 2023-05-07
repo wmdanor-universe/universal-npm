@@ -1,0 +1,30 @@
+name: 'Setup'
+
+description: 'Checkout, setup Node.js and pnpm'
+
+inputs:
+  install-dependencies:
+    description: 'Install dependencies, run "pnpm install --frozen-lockfile"'
+    required: true
+    default: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8.3.1
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: pnpm
+    
+    - name: Install dependencies
+      if: ${{ inputs.install-dependencies == 'true' }}
+      run: pnpm install --frozen-lockfile
