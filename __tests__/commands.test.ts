@@ -236,28 +236,47 @@ describe('commands', () => {
               const result = await emulateUnpmCall(testCase.input);
 
               if ('expectedGeneratedCommand' in expected) {
-                const generatedCommand = executeCommandMock.mock.calls[0]?.[0];
+                const generatedCommand = executeCommandMock.mock.lastCall?.[0];
+
+                {
+                  const errorMessages = printErrorMock.mock.calls.map(
+                    ([message]) => message,
+                  );
+
+                  if (errorMessages.length) {
+                    console.error('Error messages present: ', errorMessages);
+                  }
+                }
+
+                expect(result.status).toBe('ok');
+                expect(executeCommandMock).toHaveBeenCalledTimes(1);
+                expect(generatedCommand).toMatchExtended(
+                  expected.expectedGeneratedCommand,
+                );
 
                 if (testCase.globalPm) {
                   expect(getGlobalPackageManagerMock).toHaveBeenCalledTimes(1);
                   expect(getDefaultPackageManagerMock).toHaveBeenCalledTimes(0);
                 }
-                expect(executeCommandMock).toHaveBeenCalledTimes(1);
-                expect(generatedCommand).toMatchExtended(
-                  expected.expectedGeneratedCommand,
-                );
-                expect(result.status).toBe('ok');
-                expect(executeCommandMock).toHaveBeenCalled();
               } else {
                 const errorMessages = printErrorMock.mock.calls.map(
-                  ([message]) =>
-                    typeof message === 'string' ? message : String(message),
+                  ([message]) => message,
                 );
 
+                {
+                  const generatedCommand =
+                    executeCommandMock.mock.lastCall?.[0];
+
+                  if (generatedCommand) {
+                    console.error('Generated command present: ', errorMessages);
+                  }
+                }
+
+                expect(result.status).toBe('error');
+                expect(printErrorMock).toHaveBeenCalled();
                 expect(errorMessages[0]).toMatchExtended(
                   expected.expectedErrorOutput,
                 );
-                expect(result.status).toBe('error');
                 expect(executeCommandMock).not.toHaveBeenCalled();
               }
             },
