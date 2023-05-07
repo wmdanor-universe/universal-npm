@@ -7,7 +7,7 @@
     "externalHelpers": true,
     "target": "es2015",
     "paths": {
-      "supports-color": ["./external/supports-color"]
+      "supports-color": ["./src/__external__/supports-color"]
     }
   },
   "module": {

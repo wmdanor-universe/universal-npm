@@ -1,10 +1,9 @@
 import { executeCommand } from './executeCommand';
 import { ChildProcess, spawn } from 'child_process';
-import supportsColor from 'supports-color';
 
 jest.mock('child_process');
 
-jest.mock('../.././external/supports-color', () => {
+jest.mock('../__external__/supports-color', () => {
   return {
     __esModule: true,
     default: {

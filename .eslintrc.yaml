@@ -20,4 +20,4 @@ rules:
 ignorePatterns:
   - 'node_modules'
   - 'dist'
-  - 'external'
+  - '__external__'

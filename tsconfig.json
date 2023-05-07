@@ -10,7 +10,7 @@
     "allowJs": true,
     "checkJs": true,
     "paths": {
-      "supports-color": ["./external/supports-color"]
+      "supports-color": ["./src/__external__/supports-color"]
     }
   },
   "include": ["src/**/*.ts", "scripts/**/*.ts"],
