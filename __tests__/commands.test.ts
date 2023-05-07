@@ -242,6 +242,7 @@ describe('commands', () => {
                   expect(getGlobalPackageManagerMock).toHaveBeenCalledTimes(1);
                   expect(getDefaultPackageManagerMock).toHaveBeenCalledTimes(0);
                 }
+                expect(executeCommandMock).toHaveBeenCalledTimes(1);
                 expect(generatedCommand).toMatchExtended(
                   expected.expectedGeneratedCommand,
                 );
