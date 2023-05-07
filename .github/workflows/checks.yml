@@ -50,7 +50,7 @@ jobs:
         uses: './.github/actions/setup'
 
       - name: Run typecheck
-        run: pnpm typecheck
+        run: npm run typecheck
 
   lint:
     needs: setup
@@ -63,7 +63,7 @@ jobs:
         uses: './.github/actions/setup'
 
       - name: Run lint
-        run: pnpm lint
+        run: npm run lint
 
   test:
     needs: setup
@@ -76,4 +76,4 @@ jobs:
         uses: './.github/actions/setup'
 
       - name: Run tests
-        run: pnpm test
+        run: npm run test

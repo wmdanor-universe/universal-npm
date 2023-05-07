@@ -1,6 +1,6 @@
 name: 'Setup'
 
-description: 'Checkout, setup Node.js and pnpm'
+description: 'Setup'
 
 inputs:
   skip-install:
@@ -9,18 +9,29 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8.3.1
+    # - name: Setup pnpm
+    #   uses: pnpm/action-setup@v2
+    #   with:
+    #     version: 8.3.1
+
+    # - name: Setup Node.js
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: '16.x'
+    #     cache: pnpm
+    
+    # - name: Install dependencies
+    #   if: ${{ inputs.skip-install != 'true' }}
+    #   shell: bash
+    #   run: pnpm install --frozen-lockfile
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '16.x'
-        cache: pnpm
-    
+        cache: npm
+  
     - name: Install dependencies
       if: ${{ inputs.skip-install != 'true' }}
       shell: bash
-      run: pnpm install --frozen-lockfile
+      run: npm install
