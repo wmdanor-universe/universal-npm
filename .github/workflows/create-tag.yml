@@ -1,10 +1,8 @@
 name: Create tag
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
-  # push:
-  #   branches: [ "main" ]
 
 jobs:
   create-tag:
@@ -19,13 +17,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Debug
+      - name: Create git tag
         run: |
-          echo v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
-      
-      # - name: Create git tag
-      #   run: |
-      #     git tag v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
-      #     git push --tags
+          git tag v${{ steps.checkVersion.outputs['thisBranchCurrentVersion.value'] }}
+          git push --tags
       
 
