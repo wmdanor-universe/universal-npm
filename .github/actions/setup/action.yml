@@ -9,29 +9,18 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # - name: Setup pnpm
-    #   uses: pnpm/action-setup@v2
-    #   with:
-    #     version: 8.3.1
-
-    # - name: Setup Node.js
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: '16.x'
-    #     cache: pnpm
-    
-    # - name: Install dependencies
-    #   if: ${{ inputs.skip-install != 'true' }}
-    #   shell: bash
-    #   run: pnpm install --frozen-lockfile
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8.3.1
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '16.x'
-        cache: npm
-  
+        cache: pnpm
+    
     - name: Install dependencies
       if: ${{ inputs.skip-install != 'true' }}
       shell: bash
-      run: npm install
+      run: pnpm install --frozen-lockfile
