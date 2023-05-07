@@ -1,13 +1,9 @@
 name: Release
 
 on:
-  pull_request:
-    branches: [ "main" ]
-  # create:
-  #   tags:
-  #     - "*"
-
-# TODO: checkout to tagged commit
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   setup:
@@ -74,7 +70,7 @@ jobs:
       - name: Build
         run: pnpm build
       
-      # - name: Publish package
-      #   run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
