@@ -1,7 +1,6 @@
 name: Checks
 
 on:
-  workflow_dispatch:
   pull_request:
     branches: [ "main" ]
 
@@ -74,6 +73,9 @@ jobs:
       
       - name: Setup
         uses: './.github/actions/setup'
+
+      - name: Generate files
+        run: pnpm pregenerate-files
 
       - name: Run tests
         run: pnpm test

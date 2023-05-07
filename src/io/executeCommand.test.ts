@@ -17,10 +17,8 @@ jest.mock('../.././external/supports-color', () => {
 
 const spawnMock = jest.mocked(spawn);
 
-describe.skip('io/executeCommand', () => {
+describe('io/executeCommand', () => {
   it('should spawn a child process with the given command', async () => {
-    console.log('BRUH', supportsColor.stdout);
-
     const command = 'npm i express -D';
     const childProcessOnMock = jest
       .fn()
