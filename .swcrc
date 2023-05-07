@@ -5,7 +5,10 @@
       "syntax": "typescript"
     },
     "externalHelpers": true,
-    "target": "es2015"
+    "target": "es2015",
+    "paths": {
+      "supports-color": ["./external/supports-color"]
+    }
   },
   "module": {
     "type": "commonjs"

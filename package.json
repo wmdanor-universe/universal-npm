@@ -1,6 +1,6 @@
 {
   "name": "universal-npm",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Universal Node.js Package Manager",
   "license": "Apache-2.0",
   "author": "wmdanor",
@@ -16,16 +16,16 @@
     "aggregating"
   ],
   "scripts": {
-    "build": "npm run swc && npm run pregenerate-files",
-    "dev": "concurrently \"npm:typecheck:watch\" \"npm:swc:watch\" \"npm:pregenerate-files:watch\"",
+    "build": "pnpm swc && pnpm pregenerate-files",
+    "dev": "concurrently \"pnpm typecheck:watch\" \"pnpm swc:watch\" \"pnpm pregenerate-files:watch\"",
     "test": "jest",
     "swc": "swc src -d dist --delete-dir-on-start",
     "swc:watch": "swc src -d dist --delete-dir-on-start --watch",
     "typecheck": "tsc",
     "typecheck:watch": "tsc --watch --incremental",
     "pregenerate-files": "ts-node scripts/pregenerate-files.ts",
-    "pregenerate-files:watch": "nodemon --exec \"npm run pregenerate-files\" --watch dist",
-    "lint": "eslint src/**/* scripts/**/*",
+    "pregenerate-files:watch": "nodemon --exec \"pnpm pregenerate-files\" --watch dist",
+    "lint": "eslint src/**/* scripts/**/* __tests__/**/*",
     "release": "ts-node scripts/release.ts",
     "create-command": "ts-node scripts/create-command.ts"
   },
@@ -39,8 +39,8 @@
   "devDependencies": {
     "@jest/types": "^29.5.0",
     "@swc/cli": "^0.1.62",
-    "@swc/core": "^1.3.44",
-    "@swc/jest": "^0.2.24",
+    "@swc/core": "^1.3.56",
+    "@swc/jest": "^0.2.26",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.14.0",
     "@types/yargs": "^17.0.22",
@@ -57,7 +57,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@swc/helpers": "^0.5.0",
+    "@swc/helpers": "^0.5.1",
     "ajv": "^8.12.0",
     "preferred-pm": "^3.0.3",
     "yargs": "^17.7.0"

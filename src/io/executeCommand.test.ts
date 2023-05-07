@@ -1,80 +1,48 @@
 import { executeCommand } from './executeCommand';
-import { ChildProcess, exec, ExecException } from 'child_process';
+import { ChildProcess, spawn } from 'child_process';
+import supportsColor from 'supports-color';
 
 jest.mock('child_process');
 
-const execMock = jest.mocked(exec);
+jest.mock('../.././external/supports-color', () => {
+  return {
+    __esModule: true,
+    default: {
+      stdout: {
+        level: 2,
+      },
+    },
+  };
+});
 
-type ExecCallback = (
-  error: ExecException | null,
-  stdout: string,
-  stderr: string,
-) => void;
+const spawnMock = jest.mocked(spawn);
 
 describe('io/executeCommand', () => {
-  jest.spyOn(process, 'stdin', 'get').mockImplementation(
-    () =>
-      ({
-        pipe: jest.fn(),
-      } as unknown as NodeJS.ReadStream & { fd: 0 }),
-  );
+  it('should spawn a child process with the given command', async () => {
+    const command = 'npm i express -D';
+    const childProcessOnMock = jest
+      .fn()
+      .mockImplementation((event: string, listener: () => void) => {
+        if (event === 'close') listener();
+      });
+    const childProcessMock = {
+      on: childProcessOnMock,
+    } as unknown as ChildProcess;
+    spawnMock.mockReturnValue(childProcessMock);
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+    await executeCommand(command);
 
-  it('should resolve when the command is executed successfully', async () => {
-    execMock.mockImplementation((command, callback) => {
-      (callback as ExecCallback)(null, 'output', '');
-
-      return {} as unknown as ChildProcess;
-    });
-
-    await expect(
-      executeCommand('echo "Hello, World!"'),
-    ).resolves.toBeUndefined();
-    expect(exec).toHaveBeenCalledWith(
-      'echo "Hello, World!"',
+    expect(childProcessOnMock).toHaveBeenCalledWith(
+      'close',
       expect.any(Function),
     );
-  });
 
-  it('should reject with error, stdout, and stderr when the command execution fails', async () => {
-    const error = new Error('Command failed');
-    const stdout = 'partial output';
-    const stderr = 'error message';
-
-    execMock.mockImplementation((command, callback) => {
-      (callback as ExecCallback)(error, stdout, stderr);
-
-      return {} as unknown as ChildProcess;
+    expect(spawn).toHaveBeenCalledWith(command, [], {
+      env: expect.objectContaining({
+        FORCE_COLOR: '2',
+      }),
+      shell: true,
+      stdio: 'inherit',
     });
-
-    await expect(executeCommand('nonexistent-command')).rejects.toEqual({
-      error,
-      stdout,
-      stderr,
-    });
-    expect(exec).toHaveBeenCalledWith(
-      'nonexistent-command',
-      expect.any(Function),
-    );
-  });
-
-  it('should pipe stdout and stderr to process stdout and stderr', () => {
-    const stdoutMock = { pipe: jest.fn() };
-    const stderrMock = { pipe: jest.fn() };
-
-    execMock.mockImplementation(() => {
-      return {
-        stdout: stdoutMock,
-        stderr: stderrMock,
-      } as unknown as ChildProcess;
-    });
-
-    executeCommand('echo "Hello, World!"');
-
-    expect(stdoutMock.pipe).toHaveBeenCalledWith(process.stdout);
-    expect(stderrMock.pipe).toHaveBeenCalledWith(process.stderr);
   });
 });

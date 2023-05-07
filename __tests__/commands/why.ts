@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'why',
@@ -8,13 +8,16 @@ const testSuite: CommandTestSuite = {
       input: 'unpm why',
       expected: {
         [PackageManager.NPM]: {
-          expectedErrorOutput: 'Not enough non-option arguments: got 0, need at least 1',
+          expectedErrorOutput:
+            'Not enough non-option arguments: got 0, need at least 1',
         },
         [PackageManager.YARN]: {
-          expectedErrorOutput: 'Not enough non-option arguments: got 0, need at least 1',
+          expectedErrorOutput:
+            'Not enough non-option arguments: got 0, need at least 1',
         },
         [PackageManager.PNPM]: {
-          expectedErrorOutput: 'Not enough non-option arguments: got 0, need at least 1',
+          expectedErrorOutput:
+            'Not enough non-option arguments: got 0, need at least 1',
         },
       },
     },

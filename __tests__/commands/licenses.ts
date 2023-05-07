@@ -1,5 +1,5 @@
 import { PackageManager } from '../../src/packageManager/packageManager';
-import { CommandTestSuite } from "../types";
+import { CommandTestSuite } from '../types';
 
 const testSuite: CommandTestSuite = {
   commandName: 'licenses',
@@ -8,7 +8,8 @@ const testSuite: CommandTestSuite = {
       input: 'unpm licenses',
       expected: {
         [PackageManager.NPM]: {
-          expectedErrorOutput: /NotSupportedError: "licenses" is not supported by npm/i,
+          expectedErrorOutput:
+            /NotSupportedError: "licenses" is not supported by npm/i,
         },
         [PackageManager.YARN]: {
           expectedGeneratedCommand: 'yarn licenses list',
@@ -18,7 +19,6 @@ const testSuite: CommandTestSuite = {
         },
       },
     },
-
   ],
 };
 

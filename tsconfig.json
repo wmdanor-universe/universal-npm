@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2020",
     "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -8,11 +8,14 @@
     "noUncheckedIndexedAccess": true,
     "noEmit": true,
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "paths": {
+      "supports-color": ["./external/supports-color"]
+    }
   },
   "include": ["src/**/*.ts", "scripts/**/*.ts"],
   "exclude": ["node_modules", "dist"],
   "ts-node": {
     "swc": true
-  }
+  },
 }

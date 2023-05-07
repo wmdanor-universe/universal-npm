@@ -1,0 +1,26 @@
+name: 'Setup'
+
+description: 'Setup'
+
+inputs:
+  skip-install:
+    description: 'Set to "true" to skip dependencies installation'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8.3.1
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: pnpm
+    
+    - name: Install dependencies
+      if: ${{ inputs.skip-install != 'true' }}
+      shell: bash
+      run: pnpm install --frozen-lockfile
