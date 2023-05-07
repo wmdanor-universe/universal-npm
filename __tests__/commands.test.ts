@@ -100,9 +100,17 @@ declare global {
 expect.extend({
   toMatchExtended(
     this,
-    actual: string,
+    actual: string | undefined,
     matcher: string | RegExp | ((value: string) => boolean),
   ) {
+    if (typeof actual !== 'string') {
+      return {
+        pass: false,
+        message: () =>
+          `expected a string that matches the provided matcher ("${matcher}"), but received "${actual}"`,
+      };
+    }
+
     if (typeof matcher === 'string' || matcher instanceof RegExp) {
       if (actual.match(matcher)) {
         return {
